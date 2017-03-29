@@ -1,0 +1,4 @@
+[submodule "am-core"]
+	path = am-core
+	url = https://github.com/SirBigG/am-core.git
+	branch = master
