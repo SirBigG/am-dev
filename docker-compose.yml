@@ -1,0 +1,7 @@
+version: '2'
+services:
+  am-core:
+    build: ./am-core
+    volumes:
+       - .:/am-core
+    command: python3.5 am-core/manage.py runserver --settings=settings.dev
