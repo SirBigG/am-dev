@@ -1,7 +1,23 @@
 version: '2'
 services:
-  am-core:
+
+  nginx:
+    build: ./nginx
+    volumes:
+        - .:/usr/src/app
+    links:
+      - core
+    ports:
+      - "8000:8000"
+
+  core:
     build: ./am-core
     volumes:
-       - .:/am-core
-    command: python3.5 am-core/manage.py runserver --settings=settings.dev
+       - ./am-core:/usr/src/app
+    links:
+      - db
+    expose:
+      - "8081"
+
+  db:
+     image: postgres
