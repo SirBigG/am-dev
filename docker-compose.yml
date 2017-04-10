@@ -4,7 +4,11 @@ services:
   nginx:
     build: ./nginx
     volumes:
-        - .:/usr/src/app
+       - ./src:/src
+       - /static:/static
+       - /media:/media
+    depends_on:
+      - core
     links:
       - core
     ports:
@@ -12,8 +16,11 @@ services:
 
   core:
     build: ./am-core
+    command: bash -c "python manage.py collectstatic --noinput --settings=settings.dev && python manage.py makemigrations --settings=settings.dev && python manage.py migrate --settings=settings.dev && uwsgi --ini docker/uwsgi.ini && sleep 365d"
     volumes:
-       - ./am-core:/usr/src/app
+       - ./src:/src
+       - /static:/static
+       - /media:/media
     links:
       - db
     expose:
