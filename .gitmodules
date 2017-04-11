@@ -2,3 +2,6 @@
 	path = am-core
 	url = https://github.com/SirBigG/am-core.git
 	branch = master
+[submodule "am-static"]
+	path = am-static
+	url = https://github.com/SirBigG/am-static.git
