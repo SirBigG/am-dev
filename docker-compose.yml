@@ -16,7 +16,7 @@ services:
 
   core:
     build: ./am-core
-    command: bash -c "python manage.py collectstatic --noinput --settings=settings.dev && python manage.py makemigrations --settings=settings.dev && python manage.py migrate --settings=settings.dev && uwsgi --ini docker/uwsgi.ini && sleep 365d"
+    command: bash -c "python manage.py collectstatic --noinput --settings=settings.dev && python manage.py migrate --fake --settings=settings.dev && uwsgi --ini docker/uwsgi.ini && sleep 365d"
     volumes:
        - ./src:/src
        - /static:/static
@@ -34,4 +34,4 @@ services:
        - /media:/media
 
   db:
-     image: postgres
+     build: ./configs/db
