@@ -1,5 +1,7 @@
 version: '2'
 services:
+  db:
+    image: postgres
 
   nginx:
     build: ./nginx
@@ -16,9 +18,9 @@ services:
 
   core:
     build: ./am-core
-    command: bash -c "python manage.py collectstatic --noinput --settings=settings.dev && python manage.py makemigrations --settings=settings.dev && python manage.py migrate --settings=settings.dev && uwsgi --ini docker/uwsgi.ini && sleep 365d"
+    command: bash -c "python manage.py migrate --settings=settings.dev && uwsgi --ini docker/uwsgi.ini && sleep 365d"
     volumes:
-       - ./src:/src
+       - ./am-core:/am-core
        - /static:/static
        - /media:/media
     links:
@@ -28,10 +30,8 @@ services:
 
   node:
     build: ./am-static
+    command: bash -c "npm run watch && sleep 365d"
     volumes:
-       - ./src:/src
+       - ./am-static:/am-static
        - /static:/static
        - /media:/media
-
-  db:
-     image: postgres
