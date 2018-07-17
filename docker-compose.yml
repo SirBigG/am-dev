@@ -1,14 +1,18 @@
 version: '2'
 services:
   db:
-    image: postgres
+    image: postgres:9.6.9-alpine
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    env_file:
+      - am.env
 
   nginx:
     build: ./nginx
     volumes:
        - ./src:/src
-       - /static:/static
-       - /media:/media
+       - ./am-core/static:/static
+       - ./am-core/media:/media
     depends_on:
       - core
     links:
@@ -18,20 +22,24 @@ services:
 
   core:
     build: ./am-core
-    command: bash -c "python manage.py migrate --settings=settings.dev && uwsgi --ini docker/uwsgi.ini && sleep 365d"
+    command: /bin/sh -c "python manage.py collectstatic --noinput --settings=settings.dev && python manage.py migrate --settings=settings.dev && uwsgi --ini docker/uwsgi.ini && sleep 365d"
     volumes:
        - ./am-core:/am-core
-       - /static:/static
-       - /media:/media
+       - ./am-core/static:/static
+       - ./am-core/media:/media
+    env_file:
+      - am.env
     links:
+      - db
+    depends_on:
       - db
     expose:
       - "8081"
 
   node:
     build: ./am-static
-    command: bash -c "npm run watch && sleep 365d"
+    command: /bin/sh -c "sleep 365d"
     volumes:
        - ./am-static:/am-static
-       - /static:/static
-       - /media:/media
+       - ./am-core/static:/static
+       - ./am-core/media:/media
