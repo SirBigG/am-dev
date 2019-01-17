@@ -8,3 +8,5 @@ env/
 /configs/*
 am.env
 data/*
+
+.DS_Store

@@ -8,11 +8,16 @@ services:
       - am.env
 
   nginx:
-    build: ./nginx
+    build:
+      context: ./nginx
+      args:
+        - NGINX_CONF=nginx.conf
     volumes:
        - ./src:/src
        - ./am-core/static:/static
        - ./am-core/media:/media
+    env_file:
+      - am.env
     depends_on:
       - core
     links:
