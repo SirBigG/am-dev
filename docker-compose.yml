@@ -41,6 +41,14 @@ services:
     expose:
       - "8081"
 
+  front:
+    build: ./am-front
+    command: /bin/sh -c "gatsby develop -H 0.0.0.0"
+    volumes:
+      - ./am-front:/app
+    ports:
+      - 8282:8000
+
   node:
     build: ./am-static
     command: /bin/sh -c "sleep 365d"

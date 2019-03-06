@@ -5,3 +5,6 @@
 [submodule "am-static"]
 	path = am-static
 	url = https://github.com/SirBigG/am-static.git
+[submodule "am-front"]
+	path = am-front
+	url = https://github.com/SirBigG/am-front.git
