@@ -27,7 +27,7 @@ services:
 
   core:
     build: ./am-core
-    command: /bin/sh -c "python manage.py collectstatic --noinput --settings=settings.dev && python manage.py migrate --settings=settings.dev && uwsgi --ini docker/uwsgi.ini && sleep 365d"
+    command: /bin/sh -c "python manage.py collectstatic --noinput --settings=settings.dev && python manage.py migrate --settings=settings.dev && uwsgi --ini docker/uwsgi.ini"
     volumes:
        - ./am-core:/am-core
        - ./am-core/static:/static
@@ -41,18 +41,22 @@ services:
     expose:
       - "8081"
 
-  front:
-    build: ./am-front
-    command: /bin/sh -c "gatsby develop -H 0.0.0.0"
-    volumes:
-      - ./am-front:/app
-    ports:
-      - 8282:8000
-
-  node:
-    build: ./am-static
-    command: /bin/sh -c "sleep 365d"
-    volumes:
-       - ./am-static:/am-static
-       - ./am-core/static:/static
-       - ./am-core/media:/media
+#  front:
+#    build: ./am-front
+#    command: /bin/sh -c "npm run dev"
+#    # command: /bin/sh -c "npm run build && npm run serve"
+#    volumes:
+#      - ./am-front:/app
+#    ports:
+#      - 8282:3000
+#      - 8383:9000
+#    links:
+#      - nginx
+#
+#  node:
+#    build: ./am-static
+#    command: /bin/sh -c "sleep 365d"
+#    volumes:
+#       - ./am-static:/am-static
+#       - ./am-core/static:/static
+#       - ./am-core/media:/media
