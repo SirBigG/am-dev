@@ -60,3 +60,12 @@ services:
 #       - ./am-static:/am-static
 #       - ./am-core/static:/static
 #       - ./am-core/media:/media
+
+  front:
+    build: ./am-front
+    command: /bin/sh -c "sleep 1d;"
+    links:
+      - nginx
+    volumes:
+      - ./am-front:/app
+      - ./am-core/static/posts:/app/build
