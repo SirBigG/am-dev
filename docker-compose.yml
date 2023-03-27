@@ -1,9 +1,9 @@
-version: '2'
+version: '3.9'
 services:
   db:
-    image: postgres:9.6.9-alpine
+    image: postgres:15.1-alpine
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - dbdata:/var/lib/postgresql/data
     env_file:
       - am.env
 
@@ -14,8 +14,8 @@ services:
         - NGINX_CONF=nginx.conf
     volumes:
        - ./src:/src
-       - ./am-core/static:/static
-       - ./am-core/media:/media
+       - static:/static
+       - media:/media
     env_file:
       - am.env
     depends_on:
@@ -27,11 +27,11 @@ services:
 
   core:
     build: ./am-core
-    command: /bin/sh -c "python manage.py collectstatic --noinput --settings=settings.dev && python manage.py migrate --settings=settings.dev && uwsgi --ini docker/uwsgi.ini"
+    command: /bin/sh -c "python manage.py collectstatic --noinput --settings=settings.dev && python manage.py migrate --settings=settings.dev && python manage.py runserver 0.0.0.0:8081 --settings=settings.dev"
     volumes:
        - ./am-core:/am-core
-       - ./am-core/static:/static
-       - ./am-core/media:/media
+       - static:/static
+       - media:/media
     env_file:
       - am.env
     links:
@@ -69,3 +69,9 @@ services:
     volumes:
       - ./am-front:/app
       - ./am-core/static/posts:/app/build
+
+
+volumes:
+  dbdata:
+  static:
+  media:
