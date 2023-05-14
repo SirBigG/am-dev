@@ -2,6 +2,7 @@ version: '3.9'
 services:
   db:
     image: postgres:15.1-alpine
+    container_name: am-db
     volumes:
       - dbdata:/var/lib/postgresql/data
     env_file:
@@ -12,10 +13,11 @@ services:
       context: ./nginx
       args:
         - NGINX_CONF=nginx.conf
+    container_name: am-nginx
     volumes:
-       - ./src:/src
-       - static:/static
-       - media:/media
+      - ./src:/src
+      - static:/static
+      - media:/media
     env_file:
       - am.env
     depends_on:
@@ -28,10 +30,11 @@ services:
   core:
     build: ./am-core
     command: /bin/sh -c "python manage.py collectstatic --noinput --settings=settings.dev && python manage.py migrate --settings=settings.dev && python manage.py runserver 0.0.0.0:8081 --settings=settings.dev"
+    container_name: am-core
     volumes:
-       - ./am-core:/am-core
-       - static:/static
-       - media:/media
+      - ./am-core:/am-core
+      - static:/static
+      - media:/media
     env_file:
       - am.env
     links:
@@ -41,34 +44,15 @@ services:
     expose:
       - "8081"
 
-#  front:
-#    build: ./am-front
-#    command: /bin/sh -c "npm run dev"
-#    # command: /bin/sh -c "npm run build && npm run serve"
-#    volumes:
-#      - ./am-front:/app
-#    ports:
-#      - 8282:3000
-#      - 8383:9000
-#    links:
-#      - nginx
-#
-#  node:
-#    build: ./am-static
-#    command: /bin/sh -c "sleep 365d"
-#    volumes:
-#       - ./am-static:/am-static
-#       - ./am-core/static:/static
-#       - ./am-core/media:/media
-
   front:
     build: ./am-front
     command: /bin/sh -c "sleep 1d;"
+    container_name: am-front
     links:
       - nginx
     volumes:
       - ./am-front:/app
-      - ./am-core/static/posts:/app/build
+      - static:/static
 
 
 volumes:
