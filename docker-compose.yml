@@ -1,10 +1,10 @@
-version: '3.9'
 services:
   db:
     image: postgres:15.1-alpine
     container_name: am-db
     volumes:
-      - dbdata:/var/lib/postgresql/data
+      - am-db-data:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d:ro
     env_file:
       - am.env
 
@@ -16,25 +16,32 @@ services:
     container_name: am-nginx
     volumes:
       - ./src:/src
-      - static:/static
-      - media:/media
+      - am-static:/static
+      - am-media:/var/www/media
+      - am-forum-media:/forum-media
     env_file:
       - am.env
     depends_on:
       - core
+      - forum_instance
     links:
       - core
+      - forum_instance
     ports:
       - "8000:8000"
 
   core:
     build: ./am-core
-    command: /bin/sh -c "python manage.py collectstatic --noinput --settings=settings.dev && python manage.py migrate --settings=settings.dev && python manage.py runserver 0.0.0.0:8081 --settings=settings.dev"
+    command: /bin/sh -c "./bin/serve.sh"
     container_name: am-core
+    # settings to use breakpoint with docker
+    # to connect just write in console: docker attach rcore
+    stdin_open: true
+    tty: true
     volumes:
       - ./am-core:/am-core
-      - static:/static
-      - media:/media
+      - am-static:/static
+      - am-media:/var/www/media
     env_file:
       - am.env
     links:
@@ -52,10 +59,43 @@ services:
       - nginx
     volumes:
       - ./am-front:/app
-      - static:/static
+      - am-static:/static
+
+  forum_instance:
+    build: ./am-core/forum_instance
+    container_name: am-forum-instance
+    # entrypoint script will ensure DB exists, run migrations and start dev server on 8082
+    # ENTRYPOINT in the forum_instance image runs /app/docker-entrypoint.sh
+    stdin_open: true
+    tty: true
+    environment:
+      - DJANGO_SETTINGS_MODULE=agromega_forum.settings
+    volumes:
+      - ./am-core/forum_instance:/app
+      - am-static:/static
+      - am-forum-media:/forum-media
+    env_file:
+      - am.env
+    links:
+      - db
+    depends_on:
+      - db
+    expose:
+      - "8082"
+
+  imgproxy:
+    image: ghcr.io/imgproxy/imgproxy:latest
+    container_name: am-imgproxy
+    env_file:
+      - am.env
+    volumes:
+      - am-media:/var/www/media
+    expose:
+      - "8080"
 
 
 volumes:
-  dbdata:
-  static:
-  media:
+  am-db-data:
+  am-static:
+  am-media:
+  am-forum-media:

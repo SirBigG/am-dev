@@ -10,3 +10,4 @@ am.env
 data/*
 
 .DS_Store
+nginx/var/www/
