@@ -1,0 +1,23 @@
+{% extends "spirit/_base.html" %}
+{% load i18n %}
+{% block title %}
+    {% trans "Add Category" %}
+{% endblock title %}
+{% block content %}
+    <div class="layout__admin forum-admin-page forum-form-page">
+        {% include "spirit/admin/_nav_menu.html" with active="categories" %}
+        <div class="forum-page-heading">
+            <h1 class="headline">{% trans "Add Category" %}</h1>
+            <a class="button is-undo" href="{% url "spirit:admin:category:index" %}">{% trans "Back" %}</a>
+        </div>
+        <form action="." method="post" class="forum-topic-form">
+            {% csrf_token %}
+            <section class="forum-form-section">
+                {% include "spirit/_form.html" %}
+            </section>
+            <div class="forum-form-actions">
+                <input class="button" type="submit" name="post" value="{% trans "Save" %}" />
+            </div>
+        </form>
+    </div>
+{% endblock content %}

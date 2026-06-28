@@ -11,3 +11,6 @@ data/*
 
 .DS_Store
 nginx/var/www/
+forum_instance/staticfiles/
+forum_instance/st_search/
+forum_instance/locale/*/LC_MESSAGES/*.mo

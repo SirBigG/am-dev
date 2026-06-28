@@ -1,0 +1,49 @@
+{% extends "spirit/_base.html" %}
+{% load i18n %}
+{% block title %}
+    {% trans "User menu" %}
+{% endblock title %}
+{% block content %}
+    <div class="layout__article">
+        <h1 class="headline">{% trans "Menu" %}</h1>
+        {% spaceless %}
+            <ul class="menu_list">
+                <li>
+                    <a class="menu_list__link"
+                       href="{% url "spirit:user:detail" pk=user.pk slug=user.st.slug %}">Профіль форуму</a>
+                </li>
+                <li>
+                    <a class="menu_list__link" href="{{ main_profile_url }}">Профіль на сайті</a>
+                </li>
+                <li>
+                    <a class="menu_list__link" href="{% url "spirit:user:update" %}">Налаштування форуму</a>
+                </li>
+                <li>
+                    <a class="menu_list__link" href="{{ main_settings_url }}">Налаштування сайту</a>
+                </li>
+                <li>
+                    <a class="menu_list__link" href="{% url "spirit:topic:index-active" %}">{% trans "Topics" %}</a>
+                </li>
+                <li>
+                    <a class="menu_list__link" href="{% url "spirit:topic:unread:index" %}">{% trans "Unread topics" %}</a>
+                </li>
+                <li>
+                    <a class="menu_list__link" href="{% url "spirit:topic:private:index" %}">{% trans "Private topics" %}</a>
+                </li>
+                {% if user.st.is_administrator %}
+                    <li>
+                        <a class="menu_list__link" href="{% url "spirit:admin:index" %}">{% trans "Admin" %}</a>
+                    </li>
+                    <li>
+                        <a class="menu_list__link"
+                           href="{% url "spirit:admin:category:create" %}">Додати категорію</a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a class="menu_list__link"
+                       href="{% url "forum-logout" %}?next={{ main_logout_url|urlencode }}">{% trans "Log out" %}</a>
+                </li>
+            </ul>
+        {% endspaceless %}
+    </div>
+{% endblock content %}

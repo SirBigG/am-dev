@@ -1,0 +1,46 @@
+{% load i18n %}
+{% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+{{ form.non_field_errors }}
+{% for field in form.hidden_fields %}
+    {{ field.errors }}
+    {{ field }}
+{% endfor %}
+{% for field in form.visible_fields %}
+    <div class="field">
+        <label for="{{ field.id_for_label }}">
+            {% if field.name == "parent" %}
+                Батьківська категорія
+            {% elif field.name == "title" %}
+                Назва
+            {% elif field.name == "description" %}
+                Опис
+            {% elif field.name == "is_global" %}
+                Глобальна
+            {% elif field.name == "is_closed" %}
+                Закрита
+            {% elif field.name == "is_removed" %}
+                Видалена
+            {% elif field.name == "color" %}
+                Колір
+            {% elif field.name == "category" %}
+                Категорія
+            {% elif field.name == "comment" %}
+                Коментар
+            {% elif field.name == "nickname" %}
+                Публічне ім'я на форумі
+            {% elif field.name == "avatar" %}
+                Аватар
+            {% elif field.name == "location" %}
+                Місцезнаходження
+            {% elif field.name == "timezone" %}
+                Часовий пояс
+            {% else %}
+                {{ field.label }}
+            {% endif %}
+            :
+        </label>
+        {{ field.errors }}
+        {{ field }}
+        {{ field.help_text }}
+    </div>
+{% endfor %}

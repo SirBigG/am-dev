@@ -1,0 +1,22 @@
+{% extends "spirit/_base.html" %}
+{% load i18n %}
+{% block title %}
+    {% trans "Update topic" %}
+{% endblock title %}
+{% block content %}
+    <div class="layout__article forum-form-page">
+        <div class="forum-page-heading">
+            <h1 class="headline">{% trans "Update topic" %}</h1>
+            <a class="button is-undo" href="{% url "spirit:topic:index-active" %}">{% trans "Back" %}</a>
+        </div>
+        <form action="." method="post" class="forum-topic-form">
+            {% csrf_token %}
+            <section class="forum-form-section">
+                {% include "spirit/_form.html" %}
+            </section>
+            <div class="forum-form-actions">
+                <input class="button" type="submit" name="post" value="{% trans "Update" %}" />
+            </div>
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,481 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: agromega-forum\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-03 00:00+0000\n"
+"PO-Revision-Date: 2026-05-03 00:00+0000\n"
+"Last-Translator: Agro Mega\n"
+"Language-Team: Ukrainian\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14) ? 2 : 3);\n"
+
+msgid "Search"
+msgstr "Пошук"
+
+msgid "Results"
+msgstr "Результати"
+
+msgid "There are no search results."
+msgstr "Нічого не знайдено."
+
+msgid "Publish topic"
+msgstr "Створити тему"
+
+msgid "Create Topic"
+msgstr "Створити тему"
+
+msgid "Update topic"
+msgstr "Редагувати тему"
+
+msgid "Update"
+msgstr "Оновити"
+
+msgid "Publish"
+msgstr "Опублікувати"
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "Category"
+msgstr "Категорія"
+
+msgid "Choose a category"
+msgstr "Оберіть категорію"
+
+msgid "All Categories"
+msgstr "Усі категорії"
+
+msgid "All Subcategories"
+msgstr "Усі підкатегорії"
+
+msgid "Category list"
+msgstr "Список категорій"
+
+msgid "Create Category"
+msgstr "Створити категорію"
+
+msgid "Add Category"
+msgstr "Додати категорію"
+
+msgid "Update Category"
+msgstr "Редагувати категорію"
+
+msgid "No categories yet."
+msgstr "Категорій ще немає."
+
+msgid "Move up"
+msgstr "Перемістити вище"
+
+msgid "Move down"
+msgstr "Перемістити нижче"
+
+msgid "Removed"
+msgstr "Видалено"
+
+msgid "Closed"
+msgstr "Закрито"
+
+msgid "Save"
+msgstr "Зберегти"
+
+msgid "edit"
+msgstr "редагувати"
+
+msgid "Dashboard"
+msgstr "Панель"
+
+msgid "Basic settings"
+msgstr "Основні налаштування"
+
+msgid "Basic Settings"
+msgstr "Основні налаштування"
+
+msgid "Categories"
+msgstr "Категорії"
+
+msgid "Topics"
+msgstr "Теми"
+
+msgid "Users"
+msgstr "Користувачі"
+
+msgid "Flags"
+msgstr "Скарги"
+
+msgid "Software"
+msgstr "Система"
+
+msgid "Statistics"
+msgstr "Статистика"
+
+msgid "Members"
+msgstr "Учасники"
+
+msgid "Comments"
+msgstr "Коментарі"
+
+msgid "Likes"
+msgstr "Вподобання"
+
+msgid "Deleted"
+msgstr "Видалені"
+
+msgid "Deleted Topics"
+msgstr "Видалені теми"
+
+msgid "Deleted topics"
+msgstr "Видалені теми"
+
+msgid "Closed topics"
+msgstr "Закриті теми"
+
+msgid "Pinned"
+msgstr "Закріплені"
+
+msgid "Pinned topics"
+msgstr "Закріплені теми"
+
+msgid "User list"
+msgstr "Список користувачів"
+
+msgid "Admins"
+msgstr "Адміністратори"
+
+msgid "Mods"
+msgstr "Модератори"
+
+msgid "Unactive"
+msgstr "Неактивні"
+
+msgid "Unactive Users"
+msgstr "Неактивні користувачі"
+
+msgid "List"
+msgstr "Список"
+
+msgid "Edit user"
+msgstr "Редагувати користувача"
+
+msgid "Log in"
+msgstr "Увійти"
+
+msgid "Log out"
+msgstr "Вийти"
+
+msgid "Notifications"
+msgstr "Сповіщення"
+
+msgid "Unread topics"
+msgstr "Непрочитані теми"
+
+msgid "Private topics"
+msgstr "Приватні теми"
+
+msgid "Admin"
+msgstr "Адмін"
+
+msgid "Profile"
+msgstr "Профіль"
+
+msgid "Email"
+msgstr "Імейл"
+
+msgid "Password"
+msgstr "Пароль"
+
+msgid "Username"
+msgstr "Ім'я користувача"
+
+msgid "Email address"
+msgstr "Імейл"
+
+msgid "Location"
+msgstr "Місцезнаходження"
+
+msgid "Time zone"
+msgstr "Часовий пояс"
+
+msgid "Avatar"
+msgstr "Аватар"
+
+msgid "Active"
+msgstr "Активний"
+
+msgid "Verified"
+msgstr "Підтверджений"
+
+msgid "Administrator status"
+msgstr "Статус адміністратора"
+
+msgid "Moderator status"
+msgstr "Статус модератора"
+
+msgid "Your forum profile has been updated!"
+msgstr "Профіль форуму оновлено."
+
+msgid "The category has been updated!"
+msgstr "Категорію оновлено."
+
+msgid "Settings updated!"
+msgstr "Налаштування оновлено."
+
+msgid "Filter by"
+msgstr "Фільтрувати за"
+
+msgid "Your search must contain at least %(length)s characters."
+msgstr "Пошуковий запит має містити щонайменше %(length)s символи."
+
+msgid "Reply"
+msgstr "Відповісти"
+
+msgid "Like"
+msgstr "Вподобати"
+
+msgid "Remove like"
+msgstr "Прибрати вподобання"
+
+msgid "Quote"
+msgstr "Цитувати"
+
+msgid "Share"
+msgstr "Поділитися"
+
+msgid "Bookmark"
+msgstr "Закладка"
+
+msgid "Report"
+msgstr "Поскаржитися"
+
+msgid "Latest active topics"
+msgstr "Останні активні теми"
+
+msgid "Page 1 of 1"
+msgstr "Сторінка 1 з 1"
+
+msgid "Page %(number)s of %(num_pages)s"
+msgstr "Сторінка %(number)s з %(num_pages)s"
+
+msgid "First"
+msgstr "Перша"
+
+msgid "Last"
+msgstr "Остання"
+
+msgid "Title"
+msgstr "Назва"
+
+msgid "title"
+msgstr "назва"
+
+msgid "Comment"
+msgstr "Коментар"
+
+msgid "Write comment..."
+msgstr "Напишіть коментар..."
+
+msgid "category"
+msgstr "категорія"
+
+msgid "categories"
+msgstr "категорії"
+
+msgid "category parent"
+msgstr "батьківська категорія"
+
+msgid "description"
+msgstr "опис"
+
+msgid "color"
+msgstr "колір"
+
+msgid "global"
+msgstr "глобальна"
+
+msgid "closed"
+msgstr "закрита"
+
+msgid "removed"
+msgstr "видалена"
+
+msgid "private"
+msgstr "приватна"
+
+msgid "sorting order"
+msgstr "порядок сортування"
+
+msgid "modified at"
+msgstr "змінено"
+
+msgid "Title color in hex format (i.e: #1aafd0)."
+msgstr "Колір назви у hex-форматі, наприклад #1aafd0."
+
+msgid "Designates whether the topics will bedisplayed in the all-categories list."
+msgstr "Визначає, чи показувати теми цієї категорії у списку всіх категорій."
+
+msgid "topic"
+msgstr "тема"
+
+msgid "topics"
+msgstr "теми"
+
+msgid "date"
+msgstr "дата"
+
+msgid "last active"
+msgstr "остання активність"
+
+msgid "reindex at"
+msgstr "переіндексувати"
+
+msgid "pinned"
+msgstr "закріплена"
+
+msgid "globally pinned"
+msgstr "глобально закріплена"
+
+msgid "views count"
+msgstr "кількість переглядів"
+
+msgid "comment count"
+msgstr "кількість коментарів"
+
+msgid "Parent"
+msgstr "Батьківська категорія"
+
+msgid "Description"
+msgstr "Опис"
+
+msgid "Global"
+msgstr "Глобальна"
+
+msgid "Color"
+msgstr "Колір"
+
+msgid "Topic ID"
+msgstr "ID теми"
+
+msgid "Move selected comments to"
+msgstr "Перемістити вибрані коментарі до"
+
+msgid "Select comments to move"
+msgstr "Вибрати коментарі для переміщення"
+
+msgid "Main"
+msgstr "Головна"
+
+msgid "Moderate"
+msgstr "Модерація"
+
+msgid "Undelete topic"
+msgstr "Відновити тему"
+
+msgid "Delete topic"
+msgstr "Видалити тему"
+
+msgid "Open topic"
+msgstr "Відкрити тему"
+
+msgid "Close topic"
+msgstr "Закрити тему"
+
+msgid "Unpin topic"
+msgstr "Відкріпити тему"
+
+msgid "Pin topic"
+msgstr "Закріпити тему"
+
+msgid "Unpin topic globally"
+msgstr "Відкріпити глобально"
+
+msgid "Pin topic globally"
+msgstr "Закріпити глобально"
+
+msgid "Move"
+msgstr "Перемістити"
+
+msgid "Moderator"
+msgstr "Модератор"
+
+msgid "Original Poster"
+msgstr "Автор теми"
+
+msgid "delete"
+msgstr "видалити"
+
+msgid "undelete"
+msgstr "відновити"
+
+msgid "show"
+msgstr "показати"
+
+msgid "report"
+msgstr "поскаржитися"
+
+msgid "share"
+msgstr "поділитися"
+
+msgid "like"
+msgstr "вподобати"
+
+msgid "remove like"
+msgstr "прибрати вподобання"
+
+msgid "quote"
+msgstr "цитувати"
+
+msgid "reply"
+msgstr "відповісти"
+
+msgid "Bold"
+msgstr "Жирний"
+
+msgid "Italic"
+msgstr "Курсив"
+
+msgid "URL"
+msgstr "Посилання"
+
+msgid "Image"
+msgstr "Зображення"
+
+msgid "File"
+msgstr "Файл"
+
+msgid "Poll"
+msgstr "Опитування"
+
+msgid "Preview"
+msgstr "Попередній перегляд"
+
+msgid "uploading {name}"
+msgstr "завантаження {name}"
+
+msgid "bolded text"
+msgstr "жирний текст"
+
+msgid "italicised text"
+msgstr "курсивний текст"
+
+msgid "list item"
+msgstr "елемент списку"
+
+msgid "link text"
+msgstr "текст посилання"
+
+msgid "link url"
+msgstr "адреса посилання"
+
+msgid "image text"
+msgstr "опис зображення"
+
+msgid "image url"
+msgstr "адреса зображення"
+
+msgid "file text"
+msgstr "назва файлу"
+
+msgid "file url"
+msgstr "адреса файлу"

@@ -1,0 +1,102 @@
+{% load spirit_tags i18n %}
+{% load_settings 'LOGIN_URL' %}
+<header class="layout__header forum-header js-tabs-container">
+    <div class="forum-header__brand">
+        <a class="forum-header__logo" href="{{ main_site_url }}/">Agro Mega</a>
+        <a class="forum-header__section" href="{% url "spirit:index" %}">Форум</a>
+    </div>
+    <nav class="forum-header__nav" aria-label="Main site navigation">
+        <a class="forum-header__nav-link" href="{{ main_site_url }}/">Головна</a>
+        <a class="forum-header__nav-link" href="{{ main_categories_url }}">Почитати</a>
+        <a class="forum-header__nav-link" href="{{ main_news_url }}">Новини</a>
+        <a class="forum-header__nav-link" href="{{ main_adverts_url }}">Оголошення</a>
+        <a class="forum-header__nav-link" href="{{ main_events_url }}">Події</a>
+        <a class="forum-header__nav-link" href="{{ main_companies_url }}">Компанії</a>
+    </nav>
+    <form class="forum-header__search"
+          method="get"
+          action="{% url "forum-search" %}">
+        <input class="forum-header__search-input"
+               type="search"
+               name="q"
+               placeholder="Пошук у форумі"
+               aria-label="Пошук у форумі"
+               value="{{ request.GET.q|default_if_none:'' }}">
+        <button class="forum-header__search-button" type="submit" title="Пошук">
+            <i class="fa fa-search"></i>
+        </button>
+    </form>
+    {% if user.is_authenticated %}
+        {% has_topic_notifications user as has_notifications %}
+        {% spaceless %}
+            <ul class="header__tabs forum-header__actions">
+                <li>
+                    <a class="header__tabs__item js-tab-notification{% if has_notifications %} is-highlighted{% endif %}"
+                       href="{% url "spirit:topic:notification:index" %}"
+                       data-related=".js-notifications-content"
+                       data-content=".js-notifications-content-list"
+                       title="{% trans "Notifications" %}"><i class="fa fa-bell"></i></a>
+                </li>
+                <li>
+                    <a class="header__tabs__item js-tab forum-header__user"
+                       href="{% url "spirit:user:menu" %}"
+                       data-related=".js-user-content">{{ user.st.nickname }} <i class="fa fa-chevron-down"></i></a>
+                </li>
+            </ul>
+        {% endspaceless %}
+        <div class="header__tabs_content">
+            <div class="header__tabs_content__tab js-tab-content js-user-content"
+                 style="display: none">
+                <nav class="header__tab__nav">
+                    {% spaceless %}
+                        <ul class="menu_list">
+                            <li>
+                                <a class="menu_list__link"
+                                   href="{% url "spirit:user:detail" pk=user.pk slug=user.st.slug %}">Профіль форуму</a>
+                            </li>
+                            <li>
+                                <a class="menu_list__link" href="{{ main_profile_url }}">Профіль на сайті</a>
+                            </li>
+                            <li>
+                                <a class="menu_list__link" href="{% url "spirit:user:update" %}">Налаштування форуму</a>
+                            </li>
+                            <li>
+                                <a class="menu_list__link" href="{{ main_settings_url }}">Налаштування сайту</a>
+                            </li>
+                            <li>
+                                <a class="menu_list__link" href="{% url "spirit:topic:index-active" %}">{% trans "Topics" %}</a>
+                            </li>
+                            <li>
+                                <a class="menu_list__link" href="{% url "spirit:topic:unread:index" %}">{% trans "Unread topics" %}</a>
+                            </li>
+                            <li>
+                                <a class="menu_list__link" href="{% url "spirit:topic:private:index" %}">{% trans "Private topics" %}</a>
+                            </li>
+                            {% if user.st.is_administrator %}
+                                <li>
+                                    <a class="menu_list__link" href="{% url "spirit:admin:index" %}">{% trans "Admin" %}</a>
+                                </li>
+                                <li>
+                                    <a class="menu_list__link"
+                                       href="{% url "spirit:admin:category:create" %}">Додати категорію</a>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <a class="menu_list__link"
+                                   href="{% url "forum-logout" %}?next={{ main_logout_url|urlencode }}">{% trans "Log out" %}</a>
+                            </li>
+                        </ul>
+                    {% endspaceless %}
+                </nav>
+            </div>
+            <div class="header__tabs_content__tab js-tab-content js-notifications-content"
+                 style="display: none">
+                <div class="header__tab__bell js-notifications-content-list"></div>
+            </div>
+        </div>
+    {% else %}
+        <a class="header__login forum-header__login"
+           href="{% url st_settings.LOGIN_URL %}?next={% firstof request.get_full_path|urlencode '/' %}">{% trans "Log in" %}</a>
+    {% endif %}
+    {% render_messages messages %}
+</header>

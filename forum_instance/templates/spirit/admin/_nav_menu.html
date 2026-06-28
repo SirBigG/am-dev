@@ -1,0 +1,15 @@
+{% load i18n %}
+<nav class="forum-admin-nav" aria-label="Forum admin">
+    <a class="forum-admin-nav__link{% if active == "dashboard" %} is-active{% endif %}"
+       href="{% url "spirit:admin:index" %}">{% trans "Dashboard" %}</a>
+    <a class="forum-admin-nav__link{% if active == "categories" %} is-active{% endif %}"
+       href="{% url "spirit:admin:category:index" %}">{% trans "Categories" %}</a>
+    <a class="forum-admin-nav__link{% if active == "topics" %} is-active{% endif %}"
+       href="{% url "spirit:admin:topic:index" %}">{% trans "Topics" %}</a>
+    <a class="forum-admin-nav__link{% if active == "users" %} is-active{% endif %}"
+       href="{% url "spirit:admin:user:index" %}">{% trans "Users" %}</a>
+    <a class="forum-admin-nav__link{% if active == "flags" %} is-active{% endif %}"
+       href="{% url "spirit:admin:flag:index" %}">{% trans "Flags" %}</a>
+    <a class="forum-admin-nav__link{% if active == "settings" %} is-active{% endif %}"
+       href="{% url "spirit:admin:config-basic" %}">{% trans "Basic settings" %}</a>
+</nav>

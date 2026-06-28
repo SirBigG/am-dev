@@ -1,0 +1,5 @@
+django-spirit==0.14.3
+social-auth-app-django==5.9.0
+psycopg[c]==3.3.4
+django-storages==1.14.6
+boto3==1.43.6

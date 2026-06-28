@@ -51,18 +51,9 @@ services:
     expose:
       - "8081"
 
-  front:
-    build: ./am-front
-    command: /bin/sh -c "sleep 1d;"
-    container_name: am-front
-    links:
-      - nginx
-    volumes:
-      - ./am-front:/app
-      - am-static:/static
 
   forum_instance:
-    build: ./am-core/forum_instance
+    build: ./forum_instance
     container_name: am-forum-instance
     # entrypoint script will ensure DB exists, run migrations and start dev server on 8082
     # ENTRYPOINT in the forum_instance image runs /app/docker-entrypoint.sh
@@ -71,7 +62,7 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=agromega_forum.settings
     volumes:
-      - ./am-core/forum_instance:/app
+      - ./forum_instance:/app
       - am-static:/static
       - am-forum-media:/forum-media
     env_file:

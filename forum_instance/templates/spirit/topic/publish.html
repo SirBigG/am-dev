@@ -1,0 +1,39 @@
+{% extends "spirit/_base.html" %}
+{% load spirit_tags i18n %}
+{% block title %}
+    {% trans "Publish topic" %}
+{% endblock title %}
+{% block head-extra %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      stModules.store(
+        document.querySelector('textarea'),
+        'topic_publish_comment'
+      );
+    });
+    </script>
+{% endblock head-extra %}
+{% block content %}
+    <div class="layout__article forum-form-page">
+        <div class="forum-page-heading">
+            <h1 class="headline">{% trans "Publish topic" %}</h1>
+            <a class="button is-undo" href="{% url "spirit:topic:index-active" %}">{% trans "Back" %}</a>
+        </div>
+        <form action="." method="post" class="js-reply forum-topic-form">
+            {% csrf_token %}
+            <section class="forum-form-section">
+                {% include "spirit/_form.html" %}
+            </section>
+            <section class="forum-form-section topic_publish_comment">
+                {% include "spirit/_form.html" with form=cform %}
+                {% include "spirit/comment/_editor_preview.html" %}
+            </section>
+            <div class="comment__reply__actions forum-form-actions">
+                {% include "spirit/comment/_editor.html" %}
+                <input class="button comment__reply__actions__publish"
+                       type="submit"
+                       value="{% trans "Publish" %}" />
+            </div>
+        </form>
+    </div>
+{% endblock content %}
