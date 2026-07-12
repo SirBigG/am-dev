@@ -1,0 +1,44 @@
+{% extends "spirit/_base.html" %}
+{% block title %}Спільнота{% endblock %}
+{% block content %}
+<div class="community-shell community-home">
+  <div class="community-home__layout">
+    <div class="community-feed">
+      <section aria-labelledby="latest-publications">
+        <div class="community-section-heading"><div><p class="community-kicker">Публікації</p><h1 id="latest-publications">Нові матеріали</h1></div><a href="{% url 'publications:list' %}">Переглянути всі</a></div>
+        <div class="community-story-list">
+          {% for publication in publications %}
+            <article class="feed-story feed-story--publication">
+              <p class="feed-story__eyebrow">{{ publication.get_kind_display }}</p>
+              <h3><a class="feed-story__link" href="{{ publication.get_absolute_url }}">{{ publication.topic.title }}</a></h3>
+              <p>{{ publication.excerpt }}</p>
+              <div class="community-meta"><span>{{ publication.author.st.nickname }}</span>{% if publication.published_at %}<time datetime="{{ publication.published_at|date:'c' }}">{{ publication.published_at|date:"j E Y" }}</time>{% endif %}</div>
+              {% if publication.tags.exists %}<div class="publication-card__tags">{% for tag in publication.tags.all %}<a href="{% url 'publications:list' %}?tag={{ tag.slug }}">#{{ tag.name }}</a>{% endfor %}</div>{% endif %}
+            </article>
+          {% empty %}
+            <div class="community-empty"><h3>Публікацій поки немає</h3><p>Напишіть перший корисний матеріал для спільноти.</p><a class="button" href="{% url 'publications:create' %}">Написати публікацію</a></div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section aria-labelledby="active-discussions">
+        <div class="community-section-heading"><div><p class="community-kicker">Обговорення</p><h2 id="active-discussions">Активні розмови</h2></div><a href="{% url 'spirit:topic:index-active' %}">Переглянути всі</a></div>
+        <div class="discussion-list">
+          {% for topic in discussions %}
+            <article class="discussion-row">
+              <div><p class="discussion-row__category">{{ topic.category.title }}</p><h3><a class="discussion-row__link" href="{{ topic.get_absolute_url }}">{{ topic.title }}</a></h3><p class="community-meta">{{ topic.user.st.nickname }} · {{ topic.comment_count }} відповідей · {{ topic.last_active|date:"j E" }}</p></div>
+            </article>
+          {% empty %}
+            <div class="community-empty"><h3>Розмов ще немає</h3><p>Поставте запитання або запропонуйте тему.</p><a class="button" href="{% url 'spirit:topic:publish' %}">Почати обговорення</a></div>
+          {% endfor %}
+        </div>
+      </section>
+    </div>
+
+    <aside class="community-sidebar" aria-label="Додаткова навігація">
+      <section class="community-sidebar__card"><h2>Що створити?</h2><p><strong>Публікація</strong> — для розгорнутого досвіду. <strong>Обговорення</strong> — для питання або короткої розмови.</p></section>
+      {% if popular_tags %}<section><h2>Популярні теми</h2><div class="community-sidebar__tags">{% for tag in popular_tags %}<a href="{% url 'publications:list' %}?tag={{ tag.slug }}">#{{ tag.name }}</a>{% endfor %}</div></section>{% endif %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

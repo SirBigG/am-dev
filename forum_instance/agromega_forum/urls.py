@@ -14,6 +14,7 @@ urlpatterns = [
     path("user/login/", sso_views.SSOStartView.as_view(), name="forum-login"),
     path("user/register/", sso_views.MainSiteAccountRedirectView.as_view(), name="forum-register"),
     path("user/password-reset/", sso_views.MainSiteAccountRedirectView.as_view(), name="forum-password-reset"),
+    path("", include("community.urls")),
     path("", include("social_django.urls", namespace="social")),
     path("", include("spirit.urls")),
 ]

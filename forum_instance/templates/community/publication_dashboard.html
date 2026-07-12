@@ -1,0 +1,10 @@
+{% extends "spirit/_base.html" %}
+{% block title %}Мої публікації{% endblock %}
+{% block content %}
+<div class="community-shell community-page">
+  <header class="community-page-header community-page-header--split"><div><p class="community-kicker">Кабінет автора</p><h1>Мої публікації</h1><p>Створюйте матеріали та повертайтеся до них для оновлення.</p></div><a class="button" href="{% url 'publications:create' %}">Написати публікацію</a></header>
+  <div class="author-publications">
+    {% for publication in publications %}<article class="author-publication-card"><div><span class="community-status community-status--{{ publication.status }}">{{ publication.get_status_display }}</span><h2><a href="{{ publication.get_absolute_url }}">{{ publication.topic.title }}</a></h2><p>{{ publication.excerpt }}</p><p class="community-meta">Оновлено {{ publication.updated_at|date:"j E Y, H:i" }}</p></div><a class="button is-undo" href="{% url 'publications:edit' publication.slug %}">Редагувати</a></article>{% empty %}<div class="community-empty"><h2>Публікацій ще немає</h2><p>Поділіться власною практикою з читачами AgroMega.</p><a class="button" href="{% url 'publications:create' %}">Написати першу публікацію</a></div>{% endfor %}
+  </div>
+</div>
+{% endblock %}

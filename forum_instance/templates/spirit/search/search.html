@@ -1,0 +1,14 @@
+{% extends "spirit/_base.html" %}
+{% load spirit_tags %}
+{% block title %}Пошук у спільноті{% endblock %}
+{% block content %}
+<div class="community-shell community-page">
+  <header class="community-page-header"><p class="community-kicker">Пошук</p><h1>{% if query %}Результати пошуку{% else %}Знайти у спільноті{% endif %}</h1>{% if query %}<p>Результати за запитом «{{ query }}»</p>{% else %}<p>Шукайте публікації, обговорення та відповіді учасників.</p>{% endif %}</header>
+  <form class="community-discovery" method="get" action="{% url 'forum-search' %}" role="search"><label for="forum-search-page">Пошуковий запит</label><div><input id="forum-search-page" type="search" name="q" value="{{ query|default:'' }}" required><button class="button" type="submit">Знайти</button></div></form>
+  {% if query %}
+    {% if publication_results %}<section class="community-search-section" aria-labelledby="publication-search-results"><h2 id="publication-search-results">Публікації</h2><div class="publication-grid">{% for publication in publication_results %}<article class="publication-card"><div class="publication-card__body"><p class="publication-card__meta">{{ publication.get_kind_display }}</p><h3><a class="publication-card__link" href="{{ publication.get_absolute_url }}">{{ publication.topic.title }}</a></h3><p>{{ publication.excerpt }}</p></div></article>{% endfor %}</div></section>{% endif %}
+    {% if page %}<section class="community-search-section" aria-labelledby="discussion-search-results"><h2 id="discussion-search-results">Обговорення</h2>{% include "spirit/search/_render_list.html" with topics=page %}{% render_paginator page %}</section>{% endif %}
+    {% if not publication_results and not page %}<div class="community-empty"><h2>Нічого не знайдено</h2><p>Спробуйте коротший або інший запит.</p></div>{% endif %}
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "spirit/_base.html" %}
+{% block title %}{% if creating %}Нова публікація{% else %}Редагування{% endif %}{% endblock %}
+{% load static %}
+{% block head-extra %}
+  <script defer src="{% static 'community/scripts/editor.bundle.js' %}?v=20260711-5"></script>
+  <link rel="stylesheet" href="{% static 'community/scripts/editor.bundle.css' %}?v=20260711-2">
+{% endblock %}
+{% block community_navigation %}{% endblock %}
+{% block mobile_community_navigation %}{% endblock %}
+{% block content %}
+<div class="medium-compose">
+  <h1 class="visually-hidden">{% if creating %}Нова публікація{% else %}Редагування публікації{% endif %}</h1>
+  <form method="post" enctype="multipart/form-data" class="medium-editor" data-image-upload-url="{% url 'publications:editor-image-upload' %}">{% csrf_token %}
+    {% if form.errors %}<div class="community-alert community-alert--error" role="alert" tabindex="-1"><strong>Перевірте поля форми.</strong>{{ form.non_field_errors }}</div>{% endif %}
+    <div class="medium-compose__canvas">
+      <div class="medium-compose__actions"><a href="{% url 'publications:list' %}">Назад</a><span class="medium-compose__status">Зміни ще не збережено</span><button class="button" type="button" data-open-publish>{% if creating %}Опублікувати{% else %}Зберегти{% endif %}</button></div>
+      <div class="community-field community-field--title{% if form.title.errors %} community-field--error{% endif %}"><label for="{{ form.title.id_for_label }}">Заголовок</label>{{ form.title }}{{ form.title.errors }}</div>
+      <div class="medium-compose__story">
+        <label class="visually-hidden" for="{{ form.body.id_for_label }}">Текст публікації</label>{{ form.body }}{{ form.body.errors }}
+      </div>
+    </div>
+    <section class="medium-publish-panel" data-publish-panel hidden role="dialog" aria-modal="true" aria-labelledby="publish-heading">
+      <div class="medium-publish-panel__card"><button type="button" class="medium-publish-panel__close" data-close-publish aria-label="Закрити">×</button><p class="community-kicker">Останній крок</p><h2 id="publish-heading">Готово до публікації?</h2>
+        {% for field in form %}{% if field.name != 'title' and field.name != 'body' %}<div class="community-field community-field--{{ field.name }}{% if field.errors %} community-field--error{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.help_text %}<small id="{{ field.id_for_label }}-help">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</div>{% endif %}{% endfor %}
+        <div class="community-form__actions"><button type="button" class="button is-undo" data-close-publish>Назад</button><button class="button" type="submit">{% if creating %}Опублікувати зараз{% else %}Зберегти зміни{% endif %}</button></div>
+      </div>
+    </section>
+  </form>
+</div>
+{% endblock %}

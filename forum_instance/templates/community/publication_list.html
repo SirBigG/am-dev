@@ -1,0 +1,17 @@
+{% extends "spirit/_base.html" %}
+{% block title %}Публікації{% endblock %}
+{% block content %}
+<div class="community-shell community-page">
+  <h1 class="visually-hidden">Публікації AgroMega</h1>
+  <form class="community-discovery" method="get" role="search">
+    <label for="community-q">Пошук публікацій</label>
+    <div><input id="community-q" type="search" name="q" value="{{ query }}" placeholder="Назва, тема або текст"><button class="button" type="submit">Знайти</button></div>
+    {% if active_tag %}<input type="hidden" name="tag" value="{{ active_tag }}">{% endif %}
+  </form>
+  <div class="community-results-summary" aria-live="polite"><strong>{{ result_count }}</strong> матеріалів{% if query %} за запитом «{{ query }}»{% endif %}</div>
+  {% if popular_tags %}<nav class="community-tags" aria-label="Фільтр за темою"><a href="{% url 'publications:list' %}"{% if not active_tag %} class="is-active" aria-current="page"{% endif %}>Усі</a>{% for tag in popular_tags %}<a href="?tag={{ tag.slug }}"{% if active_tag == tag.slug %} class="is-active" aria-current="page"{% endif %}>#{{ tag.name }}{% if tag.publication_count %}<span>{{ tag.publication_count }}</span>{% endif %}</a>{% endfor %}</nav>{% endif %}
+  <section class="publication-grid" aria-labelledby="publication-results"><h2 id="publication-results" class="visually-hidden">Опубліковані матеріали</h2>
+    {% for publication in publications %}<article class="publication-card"><div class="publication-card__body"><p class="publication-card__meta">{{ publication.get_kind_display }}</p><h3><a class="publication-card__link" href="{{ publication.get_absolute_url }}">{{ publication.topic.title }}</a></h3><p>{{ publication.excerpt }}</p>{% if publication.tags.exists %}<div class="publication-card__tags">{% for tag in publication.tags.all %}<a href="?tag={{ tag.slug }}">#{{ tag.name }}</a>{% endfor %}</div>{% endif %}<footer><span>{{ publication.author.st.nickname }}</span>{% if publication.published_at %}<time datetime="{{ publication.published_at|date:'c' }}">{{ publication.published_at|date:"j E Y" }}</time>{% endif %}</footer></div></article>{% empty %}<div class="community-empty"><h2>Матеріалів не знайдено</h2><p>Змініть пошук або станьте першим автором.</p><a class="button" href="{% url 'publications:create' %}">Написати публікацію</a></div>{% endfor %}
+  </section>
+</div>
+{% endblock %}

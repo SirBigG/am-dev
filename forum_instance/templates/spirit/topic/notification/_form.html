@@ -1,0 +1,5 @@
+{% if notification %}<form class="forum-follow-form" method="post" action="{% url 'spirit:topic:notification:update' notification.pk %}">{% else %}<form class="forum-follow-form" method="post" action="{% url 'spirit:topic:notification:create' topic_id %}">{% endif %}
+  {% csrf_token %}
+  {% include "spirit/_form.html" %}
+  {% if notification.is_active %}<input class="button is-undo" type="submit" value="Не стежити">{% else %}<input class="button" type="submit" value="Стежити за темою">{% endif %}
+</form>

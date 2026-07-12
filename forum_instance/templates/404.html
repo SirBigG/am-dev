@@ -1,0 +1,3 @@
+{% extends "spirit/_base.html" %}
+{% block title %}Сторінку не знайдено{% endblock %}
+{% block content %}<div class="community-shell community-page system-page"><p class="community-kicker">Помилка 404</p><h1>Сторінку не знайдено</h1><p>Можливо, матеріал було переміщено або адреса містить помилку.</p><div class="system-page__actions"><a class="button" href="{% url 'publications:home' %}">До огляду</a><a class="button is-undo" href="{% url 'spirit:topic:index-active' %}">Обговорення</a></div></div>{% endblock %}

@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "social_django",
     "forum_sso",
+    "community",
     "spirit.core",
     "spirit.admin",
     "spirit.search",
@@ -129,12 +130,12 @@ WSGI_APPLICATION = "agromega_forum.wsgi.application"
 ASGI_APPLICATION = "agromega_forum.asgi.application"
 
 LOGIN_URL = "sso-start"
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = f"{FORUM_SITE_URL}/"
 LOGOUT_REDIRECT_URL = f"{MAIN_SITE_URL}/logout/?local=1"
 
 SOCIAL_AUTH_URL_NAMESPACE = "social"
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
-SOCIAL_AUTH_LOGIN_ERROR_URL = "/sso/error/"
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = f"{FORUM_SITE_URL}/"
+SOCIAL_AUTH_LOGIN_ERROR_URL = f"{FORUM_SITE_URL}/sso/error/"
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 SOCIAL_AUTH_USER_FIELDS = ["username", "email", "first_name", "last_name"]
 SOCIAL_AUTH_OIDC_OIDC_ENDPOINT = os.getenv("FORUM_OIDC_ENDPOINT", f"{MAIN_SITE_URL}/o")
@@ -188,9 +189,9 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 LOCALE_PATHS = [BASE_DIR / "locale"]
 
-STATIC_URL = os.getenv("FORUM_STATIC_URL", "/forum/static/" if FORCE_SCRIPT_NAME else "/static/")
+STATIC_URL = os.getenv("FORUM_STATIC_URL", "/community/static/" if FORCE_SCRIPT_NAME else "/static/")
 STATIC_ROOT = os.getenv("FORUM_STATIC_ROOT", "/static")
-MEDIA_URL = os.getenv("FORUM_MEDIA_URL", "/forum/media/" if FORCE_SCRIPT_NAME else "/media/")
+MEDIA_URL = os.getenv("FORUM_MEDIA_URL", "/community/media/" if FORCE_SCRIPT_NAME else "/media/")
 MEDIA_ROOT = os.getenv("FORUM_MEDIA_ROOT", str(BASE_DIR / "media"))
 STORAGES = {
     "default": {"BACKEND": "spirit.core.storage.OverwriteFileSystemStorage"},

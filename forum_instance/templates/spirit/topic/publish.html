@@ -14,9 +14,9 @@
     </script>
 {% endblock head-extra %}
 {% block content %}
-    <div class="layout__article forum-form-page">
+    <div class="community-shell community-page forum-form-page">
         <div class="forum-page-heading">
-            <h1 class="headline">{% trans "Publish topic" %}</h1>
+            <div><p class="community-kicker">Нове обговорення</p><h1 class="headline">Почати обговорення</h1><p>Сформулюйте тему так, щоб іншим було легко зрозуміти питання.</p></div>
             <a class="button is-undo" href="{% url "spirit:topic:index-active" %}">{% trans "Back" %}</a>
         </div>
         <form action="." method="post" class="js-reply forum-topic-form">
@@ -32,7 +32,7 @@
                 {% include "spirit/comment/_editor.html" %}
                 <input class="button comment__reply__actions__publish"
                        type="submit"
-                       value="{% trans "Publish" %}" />
+                       value="Опублікувати обговорення" />
             </div>
         </form>
     </div>

@@ -9,13 +9,13 @@
         <title>
             {% block title %}
             {% endblock title %}
-        - Agro Mega Forum</title>
+        - Спільнота AgroMega</title>
         <meta name="description" content="{{ config.site_description }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet"
               href="{% static "spirit/stylesheets/styles.all.min.css" %}">
         <link rel="stylesheet"
-              href="{% static "forum_sso/stylesheets/agromega-forum.css" %}">
+              href="{% static "forum_sso/stylesheets/agromega-forum.css" %}?v=20260712-7">
         <script src="{% static "spirit/scripts/all.min.js" %}"></script>
         <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -39,6 +39,33 @@
         areaClass: '.js-clickable-area',
         targetColor: 'var(--st-text-link-hover)'
       });
+      const closeHeaderMenus = function() {
+        document.querySelectorAll('.forum-header details[open], .community-mobile-nav details[open]').forEach(function(menu) {
+          menu.removeAttribute('open');
+        });
+        document.querySelectorAll('.forum-header .js-tab-content').forEach(function(panel) {
+          panel.style.display = 'none';
+        });
+        document.querySelectorAll('.forum-header .js-tab').forEach(function(trigger) {
+          trigger.classList.remove('is-active', 'is-selected');
+        });
+      };
+      document.addEventListener('click', function(event) {
+        if (!event.target.closest('.forum-header') && !event.target.closest('.community-mobile-nav')) closeHeaderMenus();
+        if (!event.target.closest('.forum-topic-toolbar')) {
+          document.querySelectorAll('.forum-topic-toolbar .js-tab-content').forEach(function(panel) {
+            panel.style.display = 'none';
+          });
+        }
+      });
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+          closeHeaderMenus();
+          document.querySelectorAll('.forum-topic-toolbar .js-tab-content').forEach(function(panel) {
+            panel.style.display = 'none';
+          });
+        }
+      });
     });
         </script>
         {% if st_settings.ST_EXTENDED_FONT %}
@@ -58,6 +85,7 @@
         {% endblock custom_head_extra %}
     </head>
     <body>
+        <a class="forum-skip-link" href="#community-main">Перейти до основного вмісту</a>
         <div class="spirit_wrapper agromega-forum">
             <div class="spirit_custom_header">
                 {% block custom_before_spirit_body %}
@@ -66,11 +94,32 @@
             <div class="spirit">
                 <div class="layout">
                     {% include "spirit/_header.html" %}
-                    {% block content %}
-                    {% endblock content %}
+                    {% block community_navigation %}<nav class="community-tabs" aria-label="Розділи спільноти">
+                        <div class="community-tabs__inner">
+                            <a href="{% url 'spirit:index' %}"{% if request.resolver_match.url_name == 'home' %} class="is-active" aria-current="page"{% endif %}>Огляд</a>
+                            <a href="{% url 'publications:list' %}"{% if request.resolver_match.namespace == 'publications' and not request.is_discussion_page and request.resolver_match.url_name != 'home' and request.resolver_match.url_name != 'discussion-active' and request.resolver_match.url_name != 'discussion-category' %} class="is-active" aria-current="page"{% endif %}>Публікації</a>
+                            <a href="{% url 'spirit:topic:index-active' %}"{% if request.is_discussion_page or request.resolver_match.url_name == 'discussion-active' or request.resolver_match.url_name == 'discussion-category' or request.resolver_match.namespace == 'spirit:topic' or request.resolver_match.namespace == 'spirit:category' %} class="is-active" aria-current="page"{% endif %}>Обговорення</a>
+                        </div>
+                    </nav>{% endblock community_navigation %}
+                    <main id="community-main" class="forum-main" tabindex="-1">
+                        {% block content %}
+                        {% endblock content %}
+                    </main>
                     {% include "spirit/_footer.html" %}
                 </div>
             </div>
+            {% block mobile_community_navigation %}<nav class="community-mobile-nav" aria-label="Мобільна навігація спільноти">
+                <a href="{% url 'publications:home' %}"{% if request.resolver_match.url_name == 'home' %} aria-current="page"{% endif %}><i class="fa fa-home" aria-hidden="true"></i><span>Огляд</span></a>
+                <a href="{% url 'publications:list' %}"{% if request.resolver_match.namespace == 'publications' and not request.is_discussion_page and request.resolver_match.url_name != 'home' and request.resolver_match.url_name != 'discussion-active' and request.resolver_match.url_name != 'discussion-category' %} aria-current="page"{% endif %}><i class="fa fa-file-text-o" aria-hidden="true"></i><span>Публікації</span></a>
+                <a href="{% url 'spirit:topic:index-active' %}"{% if request.is_discussion_page or request.resolver_match.url_name == 'discussion-active' or request.resolver_match.url_name == 'discussion-category' or request.resolver_match.namespace == 'spirit:topic' or request.resolver_match.namespace == 'spirit:category' %} aria-current="page"{% endif %}><i class="fa fa-comments-o" aria-hidden="true"></i><span>Обговорення</span></a>
+                <details class="community-create-menu community-create-menu--mobile">
+                    <summary><i class="fa fa-plus-circle" aria-hidden="true"></i><span>Створити</span></summary>
+                    <div class="community-create-menu__panel">
+                        <a href="{% url 'publications:create' %}"><strong>Публікацію</strong><small>Стаття, посібник або досвід</small></a>
+                        <a href="{% url 'spirit:topic:publish' %}"><strong>Обговорення</strong><small>Питання або коротка тема</small></a>
+                    </div>
+                </details>
+            </nav>{% endblock mobile_community_navigation %}
             <div class="spirit_custom_footer">
                 {% block custom_after_spirit_body %}
                 {% endblock custom_after_spirit_body %}

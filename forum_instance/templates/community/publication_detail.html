@@ -1,0 +1,40 @@
+{% extends "spirit/_base.html" %}
+{% load spirit_tags %}
+{% block title %}{{ publication.topic.title }}{% endblock %}
+{% block custom_head_extra %}<link rel="canonical" href="{{ publication.get_absolute_url }}">{% if publication.status != 'published' %}<meta name="robots" content="noindex,nofollow">{% endif %}{% endblock %}
+{% block content %}
+<div class="community-shell community-page publication-detail">
+  <header class="publication-header">
+    <p class="community-kicker">{{ publication.get_kind_display }}</p>
+    <h1>{{ publication.topic.title }}</h1>
+    <p class="publication-lead">{{ publication.excerpt }}</p>
+    <div class="publication-byline"><div class="community-avatar" aria-hidden="true">{{ publication.author.st.nickname|first|upper }}</div><div><strong>{{ publication.author.st.nickname }}</strong><p>{% if publication.published_at %}<time datetime="{{ publication.published_at|date:'c' }}">Опубліковано {{ publication.published_at|date:"j E Y" }}</time>{% endif %}{% if publication.updated_at %} · Оновлено {{ publication.updated_at|date:"j E Y" }}{% endif %}</p></div></div>
+    {% if publication.tags.exists %}<div class="publication-card__tags">{% for tag in publication.tags.all %}<a href="{% url 'publications:list' %}?tag={{ tag.slug }}">#{{ tag.name }}</a>{% endfor %}</div>{% endif %}
+  </header>
+  {% if publication.disclosure %}<aside class="community-notice"><strong>Розкриття співпраці</strong><p>{{ publication.disclosure }}</p></aside>{% endif %}
+  <article class="publication-body">{{ publication.body_html|safe }}</article>
+  <footer class="publication-footer"><div><strong>Матеріал підготував {{ publication.author.st.nickname }}</strong><p>Діліться власним досвідом відповідально та перевіряйте важливі рішення.</p></div>{% if user == publication.author and publication.status != 'archived' %}<a class="button is-undo" href="{% url 'publications:edit' publication.slug %}">Редагувати</a>{% endif %}</footer>
+
+  <section class="publication-comments" aria-labelledby="publication-comments-heading">
+    <header class="community-section-heading"><div><p class="community-kicker">Розмова</p><h2 id="publication-comments-heading">Коментарі {{ reply_count }}</h2></div></header>
+    <div class="comments_list">
+      {% if reply_count %}{% for c in comments %}
+          <article class="comments_list__comment js-comment" id="c{{ forloop.counter0|add:comments.start_index|add:1 }}" data-number="{{ forloop.counter0|add:comments.start_index|add:1 }}" data-pk="{{ c.pk }}">
+            <div class="comment__img">{% include "spirit/comment/_avatar.html" with u=c.user only %}</div>
+            <div class="comment__info"><div class="comment__info__username"><a class="comment__info__username__link" href="{{ c.user.st.get_absolute_url }}">{{ c.user.st.nickname }}</a></div><time class="comment__info__date" datetime="{{ c.date|date:'c' }}">{{ c.date|date:"j E Y, H:i" }}</time></div>
+            <div class="comment__text js-comment-text">{% post_render_comment comment=c %}</div>
+            <footer class="comment__footer"><ul class="comment__actions">
+              <li><a href="{% url 'spirit:comment:find' c.pk %}">Посилання</a></li>
+              {% if user.is_authenticated %}<li><a href="{% url 'spirit:comment:flag:create' c.pk %}">Поскаржитися</a></li>{% endif %}
+              {% if user.is_authenticated and c.user.pk != user.pk %}<li><a href="{% url 'spirit:comment:publish' topic_id=topic.pk pk=c.pk %}">Цитувати</a></li><li><a href="#reply" class="js-reply-button" data="@{{ c.user.username }}">Відповісти</a></li>{% endif %}
+              {% if user.st.is_moderator or c.user.pk == user.pk %}<li><a href="{% url 'spirit:comment:update' pk=c.pk %}">Редагувати</a></li>{% endif %}
+            </ul></footer>
+          </article>
+      {% endfor %}{% else %}<div class="community-empty"><h3>Коментарів ще немає</h3><p>Поділіться думкою або поставте автору запитання.</p></div>{% endif %}
+    </div>
+    {% render_paginator comments %}
+    {% if not topic.is_closed %}<div id="reply" class="publication-reply"><h3>Додати коментар</h3>{% if user.is_authenticated %}{% render_comments_form topic=topic %}{% else %}<p>Увійдіть, щоб долучитися до розмови.</p><a class="button" href="{% url 'sso-start' %}?next={{ request.get_full_path|urlencode }}#reply">Увійти та коментувати</a>{% endif %}</div>{% endif %}
+  </section>
+</div>
+{% if user.is_authenticated %}<script>document.addEventListener('DOMContentLoaded',function(){stModules.bookmark(document.querySelectorAll('.js-comment'),{csrfToken:'{{ csrf_token }}',target:'{% url "spirit:comment:bookmark:create" topic.pk %}'});});</script>{% endif %}
+{% endblock %}

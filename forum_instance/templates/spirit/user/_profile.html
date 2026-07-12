@@ -1,0 +1,10 @@
+{% load spirit_tags %}
+<header class="forum-profile-header">
+  <div class="profile__img">
+    {% if p_user.st.avatar %}<img class="profile__img__avatar" alt="Аватар {{ p_user.st.nickname }}" src="{{ p_user.st.avatar.url }}">{% else %}<div class="profile__img__avatar no-pic" aria-hidden="true" style="background-color:{% get_avatar_color p_user.pk %};">{{ p_user.st.nickname.0.upper }}</div>{% endif %}
+    <h1 class="profile__img__username">{{ p_user.st.nickname }}</h1>
+  </div>
+  <div class="profile__info"><ul><li><div class="profile__info__title">У спільноті</div><div class="profile__info__date">{{ p_user.date_joined|shortnaturaltime }}</div></li><li><div class="profile__info__title">Остання активність</div><div class="profile__info__date">{{ p_user.st.last_seen|shortnaturaltime }}</div></li>{% if user.st.is_administrator %}<li><div class="profile__info__title">Остання IP-адреса</div><div class="profile__info__date">{{ p_user.st.last_ip }}</div></li>{% endif %}</ul></div>
+  <div class="forum-profile-actions">{% if user.username == p_user.username %}<a class="button is-undo" href="{% url 'spirit:user:update' %}"><i class="fa fa-cog" aria-hidden="true"></i> Налаштування</a>{% else %}<a class="button is-undo" href="{% url 'spirit:topic:private:publish' user_id=p_user.pk %}"><i class="fa fa-envelope" aria-hidden="true"></i> Приватне повідомлення</a>{% endif %}{% if user.st.is_administrator %}<a class="button is-undo" href="{% url 'spirit:admin:user:edit' user_id=p_user.pk %}">Редагувати користувача</a>{% endif %}</div>
+</header>
+<nav aria-label="Матеріали користувача"><ul class="nav__tabs"><li><a class="nav__tabs__link{% if active_tab == 0 %} is-selected{% endif %}" href="{% url 'spirit:user:detail' pk=p_user.pk slug=p_user.st.slug %}">Коментарі</a></li><li><a class="nav__tabs__link{% if active_tab == 1 %} is-selected{% endif %}" href="{% url 'spirit:user:topics' pk=p_user.pk slug=p_user.st.slug %}">Обговорення</a></li><li><a class="nav__tabs__link{% if active_tab == 2 %} is-selected{% endif %}" href="{% url 'spirit:user:likes' pk=p_user.pk slug=p_user.st.slug %}">Вподобання</a></li></ul></nav>

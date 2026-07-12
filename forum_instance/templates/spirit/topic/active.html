@@ -1,0 +1,11 @@
+{% extends "spirit/_base.html" %}
+{% load spirit_tags %}
+{% block title %}Активні обговорення{% endblock %}
+{% block content %}
+<div class="community-shell community-page discussion-page">
+  <header class="community-page-header"><div><p class="community-kicker">Обговорення</p><h1>Активні обговорення</h1><p>Ставте запитання, обмінюйтеся досвідом і допомагайте іншим учасникам.</p></div></header>
+  {% include "spirit/topic/_top_bar.html" with category=None categories=categories %}
+  {% include "spirit/topic/_render_list.html" %}
+  {% render_paginator topics %}
+</div>
+{% endblock %}

@@ -16,26 +16,30 @@ from spirit.core.utils.views import is_post, post_data, post_files
 from spirit.search.forms import AdvancedSearchForm
 
 from .forms import ForumProfileForm
+from .urls import forum_url, safe_return_url
 
 
 class SSOStartView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect(f"{settings.FORUM_SITE_URL}/")
-        next_url = request.GET.get("next") or f"{settings.FORUM_SITE_URL}/"
+            return redirect(forum_url())
+        next_url = safe_return_url(request.GET.get("next"))
         # Start the social auth flow on the forum instance itself so the forum
         # stores the `state` value in the user's session. Build the publicly
-        # reachable forum begin URL (served under /forum on the main nginx host)
+        # reachable forum begin URL (served under /community on the main nginx host)
         # and include an absolute `next` so the forum knows where to return after auth.
-        forum_next = next_url if next_url.startswith(("http://", "https://")) else request.build_absolute_uri(next_url)
-        forum_begin = f"{settings.FORUM_SITE_URL}/login/oidc/"
-        return redirect(f"{forum_begin}?{urlencode({'next': forum_next})}")
+        forum_begin = forum_url("login/oidc/")
+        return redirect(f"{forum_begin}?{urlencode({'next': next_url})}")
 
 
 class ForumLogoutView(View):
     def get(self, request):
         logout(request)
-        next_url = request.GET.get("next") or settings.MAIN_SITE_URL
+        next_url = safe_return_url(
+            request.GET.get("next"),
+            default=settings.MAIN_SITE_URL,
+            allow_main_site=True,
+        )
         return redirect(next_url)
 
 
@@ -59,13 +63,46 @@ class PublicForumSearchView(BaseSearchView):
 
     def build_page(self):
         paginator = None
+        from community.models import Publication
+
+        publication_topic_ids = [str(pk) for pk in Publication.objects.values_list("topic_id", flat=True)]
+        results = self.results
+        if publication_topic_ids:
+            # Haystack's django_id is the backing model primary key. Excluding
+            # before pagination keeps page sizes and later safe results intact.
+            results = results.exclude(django_id__in=publication_topic_ids)
         page = yt_paginate(
-            self.results,
+            results,
             per_page=config.topics_per_page,
             page_number=self.request.GET.get("page", 1),
         )
-        page = [{"fields": r.get_stored_fields(), "pk": r.pk} for r in page]
+        # Keep Spirit's YTPage wrapper intact so render_paginator retains the
+        # current page, range, and next/previous navigation metadata.
+        page.object_list = [
+            {"fields": result.get_stored_fields(), "pk": result.pk}
+            for result in page.object_list
+        ]
         return paginator, page
+
+    def extra_context(self):
+        from django.db.models import Q
+        from community.models import Publication
+
+        query = (self.query or "").strip()
+        publications = Publication.objects.none()
+        if query:
+            publications = (
+                Publication.objects.published()
+                .select_related("author", "topic")
+                .prefetch_related("tags")
+                .filter(
+                    Q(topic__title__icontains=query)
+                    | Q(excerpt__icontains=query)
+                    | Q(body__icontains=query)
+                )
+                .distinct()[:10]
+            )
+        return {"publication_results": publications}
 
 
 @login_required

@@ -1,0 +1,20 @@
+{% load spirit_tags %}
+<div class="discussion-list">
+  {% for t in topics %}
+    <article class="discussion-row js-clickable-area">
+      <div class="discussion-row__main">
+        <div class="discussion-row__badges">
+          {% if t.is_pinned or t.is_globally_pinned %}<span class="community-status"><i class="fa fa-thumb-tack" aria-hidden="true"></i> Закріплено</span>{% endif %}
+          {% if t.is_closed %}<span class="community-status"><i class="fa fa-lock" aria-hidden="true"></i> Закрито</span>{% endif %}
+        </div>
+        <p class="discussion-row__category"><a href="{{ t.category.get_absolute_url }}">{% if not show_subcategory and t.category.parent %}{{ t.category.parent.title }}{% else %}{{ t.category.title }}{% endif %}</a></p>
+        <h2><a class="discussion-row__link js-clickable-area-target{% if t.is_visited %} is-visited{% endif %}" href="{{ t.get_bookmark_url }}">{{ t.title }}</a></h2>
+        <p class="community-meta">{% if t.user %}{{ t.user.st.nickname }} · {% endif %}<span>{{ t.comment_count }} відповідей</span> · <time datetime="{{ t.last_active|date:'c' }}">{{ t.last_active|shortnaturaltime }}</time></p>
+      </div>
+      <span class="discussion-row__reply-count" aria-hidden="true"><strong>{{ t.comment_count }}</strong><small>відповідей</small></span>
+    </article>
+  {% empty %}
+    <div class="community-empty"><h2>Обговорень поки немає</h2><p>Почніть першу розмову в цій категорії.</p><a class="button" href="{% url 'spirit:topic:publish' %}">Почати обговорення</a></div>
+  {% endfor %}
+</div>
+<script>document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.js-comment-is-new').forEach(function(el){el.classList.add('is-new');});});</script>

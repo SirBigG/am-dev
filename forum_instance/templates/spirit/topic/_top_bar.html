@@ -5,11 +5,11 @@
             {% if category %}
                 <a class="dropdown_button js-tab"
                    href="#"
-                   data-related=".js-categories-content">{{ category.title }} <i class="fa fa-chevron-down"></i></a>
+                   data-related=".js-categories-content" aria-label="Обрати категорію: {{ category.title }}">{{ category.title }} <i class="fa fa-chevron-down" aria-hidden="true"></i></a>
             {% else %}
                 <a class="dropdown_button js-tab"
                    href="#"
-                   data-related=".js-categories-content">{% trans "All Categories" %} <i class="fa fa-chevron-down"></i></a>
+                   data-related=".js-categories-content" aria-label="Обрати категорію">Усі категорії <i class="fa fa-chevron-down" aria-hidden="true"></i></a>
             {% endif %}
         </div>
         <div class="menu_list_wrapper js-tab-content js-categories-content"
@@ -41,9 +41,9 @@
                    href="{% url "spirit:admin:category:create" %}">Додати категорію</a>
             {% endif %}
             {% if category %}
-                <a class="button" href="{% url "spirit:topic:publish" category.pk %}">{% trans "Create Topic" %}</a>
+                <a class="button" href="{% url "spirit:topic:publish" category.pk %}">Почати обговорення</a>
             {% else %}
-                <a class="button" href="{% url "spirit:topic:publish" %}">{% trans "Create Topic" %}</a>
+                <a class="button" href="{% url "spirit:topic:publish" %}">Почати обговорення</a>
             {% endif %}
         {% else %}
             <a class="button"

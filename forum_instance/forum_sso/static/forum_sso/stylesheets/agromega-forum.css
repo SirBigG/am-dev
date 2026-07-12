@@ -1,6 +1,7 @@
 :root {
-  --am-green: #198754;
-  --am-green-dark: #12633e;
+  --am-green: #3f884f;
+  --am-green-dark: #286238;
+  --am-green-soft: #eaf4ec;
   --am-border: #d7e7dc;
   --am-surface: #f8fbf8;
   --am-page: #eef4f0;
@@ -37,6 +38,9 @@ html {
 body {
   background: var(--am-page);
   color: var(--am-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
 }
 
 .spirit_wrapper {
@@ -58,15 +62,24 @@ body {
 
 .agromega-forum .spirit {
   background: var(--am-page);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
+
+.agromega-forum h1,
+.agromega-forum h2,
+.agromega-forum h3,
+.agromega-forum button,
+.agromega-forum input,
+.agromega-forum select,
+.agromega-forum textarea { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
 
 .agromega-forum .layout {
   display: block;
   margin: 0 auto;
-  max-width: 1180px;
+  max-width: none;
   min-height: 100vh;
   height: auto;
-  padding: 0 14px 28px;
+  padding: 0 0 56px;
   background: var(--am-page);
   width: 100%;
 }
@@ -74,15 +87,16 @@ body {
 .forum-header {
   align-items: center;
   background: #ffffff;
-  border: 1px solid var(--am-border);
-  border-top: 0;
-  box-shadow: 0 2px 10px rgba(31, 42, 36, 0.05);
+  border: 0;
+  box-shadow: 0 1px 0 rgba(31, 42, 36, 0.08);
   display: flex;
   flex-wrap: wrap;
   gap: 10px 20px;
   justify-content: space-between;
-  min-height: 64px;
-  padding: 12px 16px;
+  min-height: 68px;
+  padding: 10px max(24px, calc((100vw - 1120px) / 2));
+  position: relative;
+  z-index: 30;
 }
 
 .forum-header__brand {
@@ -95,8 +109,8 @@ body {
 
 .forum-header__logo {
   color: var(--am-green);
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 23px;
+  font-weight: 800;
   line-height: 1.2;
   text-decoration: none;
 }
@@ -104,10 +118,141 @@ body {
 .forum-header__section {
   border-left: 1px solid var(--am-border);
   color: var(--am-muted);
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 700;
   padding-left: 10px;
   text-decoration: none;
 }
+
+.community-tabs {
+  align-items: center;
+  background: #fff;
+  border: 0;
+  border-bottom: 1px solid var(--am-border);
+  display: flex;
+  gap: 6px;
+  margin-bottom: 30px;
+  overflow-x: auto;
+  padding: 0 max(24px, calc((100vw - 1120px) / 2));
+}
+
+.community-tabs__inner { display:flex; gap:28px; min-width:max-content; }
+
+.community-tabs a {
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  color: var(--am-green-dark);
+  flex: 0 0 auto;
+  font-weight: 600;
+  padding: 14px 0 11px;
+  text-decoration: none;
+}
+
+.community-tabs a:hover,
+.community-tabs a:focus {
+  background: transparent;
+  border-bottom-color: var(--am-green);
+}
+
+.community-page { background:#fff; border:1px solid var(--am-border); border-radius:18px; box-shadow:0 16px 50px rgba(25,57,34,.07); margin:0 auto; max-width:1120px; padding:clamp(24px,4vw,52px); }
+.community-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; }
+.community-kicker { color:var(--am-green); font-size:.8rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+.community-hero { align-items:flex-end; background:linear-gradient(135deg,#f2f8f3,#fff); border:1px solid var(--am-border); border-radius:16px; display:flex; gap:32px; justify-content:space-between; margin:-20px -20px 42px; padding:clamp(28px,5vw,56px); }
+.community-hero h1,.community-page-header h1 { color:#183d24; font-size:clamp(2rem,5vw,3.4rem); line-height:1.05; margin:.25rem 0 1rem; }
+.community-hero__lead { color:var(--am-muted); font-size:1.12rem; margin:0; max-width:680px; }
+.community-primary-action { flex:0 0 auto; }
+.publication-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; margin-top:26px; }
+.publication-card { background:#fff; border:1px solid var(--am-border); border-radius:14px; box-shadow:0 6px 22px rgba(25,57,34,.06); overflow:hidden; padding:0; transition:transform .2s ease,box-shadow .2s ease; }
+.publication-card:hover { box-shadow:0 14px 32px rgba(25,57,34,.12); transform:translateY(-3px); }
+.publication-card__cover { aspect-ratio:16/9; background:var(--am-green-soft); display:block; overflow:hidden; }
+.publication-card__cover img { height:100%; object-fit:cover; width:100%; }
+.publication-card__body { padding:24px; }
+.publication-card__meta { color:var(--am-green); font-size:.78rem; font-weight:800; letter-spacing:.06em; margin:0 0 10px; text-transform:uppercase; }
+.publication-card h2 { font-size:1.35rem; line-height:1.25; margin:0 0 12px; }
+.publication-card h2 a { color:#183d24; text-decoration:none; }
+.publication-card footer { border-top:1px solid var(--am-border); color:var(--am-muted); display:flex; font-size:.85rem; justify-content:space-between; margin-top:22px; padding-top:15px; }
+.community-empty { background:var(--am-surface); border:1px dashed #a9cbb0; border-radius:16px; grid-column:1/-1; padding:64px 24px; text-align:center; }
+.community-empty span { color:var(--am-green); font-size:2rem; }
+.community-empty h2 { color:#183d24; margin:12px 0 6px; }
+.publication-lead { color:var(--am-muted); font-size:1.15rem; }
+.publication-cover { border-radius:10px; display:block; margin:24px 0; max-height:520px; object-fit:cover; width:100%; }
+.publication-body { font-size:1.05rem; line-height:1.75; max-width:760px; }
+.community-editor { max-width:860px; }
+.community-page-header { border-bottom:1px solid var(--am-border); margin-bottom:32px; padding-bottom:24px; }
+.community-page-header h1 { font-size:clamp(2rem,4vw,2.8rem); }
+.community-field { margin-bottom:24px; }
+.community-field label { display:block; margin-bottom:8px; }
+.community-field small { color:var(--am-muted); display:block; margin-top:6px; }
+.community-field .errorlist { color:#a12622; margin:8px 0 0; }
+.community-field--error input,.community-field--error textarea,.community-field--error select { border-color:#c7443e; }
+.community-form input,.community-form select,.community-form textarea { font:inherit; max-width:100%; width:100%; }
+.community-form__actions { align-items:center; border-top:1px solid var(--am-border); display:flex; gap:12px; justify-content:flex-end; margin-top:34px; padding-top:24px; }
+.medium-editor { max-width:760px; }
+.medium-editor .community-field--title label,.medium-editor .community-field--body>label { clip:rect(0 0 0 0); height:1px; margin:-1px; overflow:hidden; position:absolute; width:1px; }
+.agromega-forum .medium-title-input { border:0; border-bottom:1px solid var(--am-border); border-radius:0; color:#1f2937; font-size:clamp(2rem,5vw,3.25rem); font-weight:750; letter-spacing:-.025em; line-height:1.08; min-height:86px; padding:10px 0 18px; }
+.agromega-forum .medium-title-input:focus { border-bottom-color:var(--am-green); box-shadow:none; }
+.agromega-forum .medium-summary-input { background:#fbfdfb; font-size:1.08rem; line-height:1.6; }
+.medium-editor__toolbar { background:#fff; border:1px solid var(--am-border); border-radius:16px; box-shadow:0 8px 24px rgba(15,23,42,.08); display:flex; gap:3px; margin:8px 0 14px; overflow-x:auto; padding:6px; position:sticky; top:8px; z-index:12; }
+.medium-editor__toolbar button { align-items:center; background:transparent; border:0; border-radius:10px; color:#385442; cursor:pointer; display:flex; flex:0 0 auto; flex-direction:column; font-size:.7rem; gap:2px; justify-content:center; min-height:52px; min-width:62px; padding:5px 9px; }
+.medium-editor__toolbar button strong { color:#1f2937; font-size:1.05rem; line-height:1; }
+.medium-editor__toolbar button:hover,.medium-editor__toolbar button:focus { background:var(--am-green-soft); color:var(--am-green-dark); outline:none; }
+.agromega-forum .medium-editor__input { border:0; border-radius:0; color:#1f2937; font-size:1.16rem; line-height:1.8; min-height:520px; padding:22px 4px; resize:vertical; }
+.agromega-forum .medium-editor__input:focus { border:0; box-shadow:none; }
+.medium-editor__hint { border-top:1px solid var(--am-border); font-size:.85rem; margin:0; padding-top:12px; }
+.publication-body h2 { color:#2f7d45; font-size:1.7rem; margin:2.2rem 0 1rem; }
+.publication-body h3 { color:#2f7d45; font-size:1.35rem; margin:1.8rem 0 .75rem; }
+.publication-body blockquote { background:#f0f7f2; border-left:4px solid #2f7d45; color:#203829; font-size:1.12rem; margin:1.5rem 0; padding:1rem 1.2rem; }
+.publication-body hr { border:0; border-top:1px solid var(--am-border); margin:2.5rem auto; width:35%; }
+.publication-body figure { margin:2rem 0; }
+.publication-body figure img { border-radius:14px; height:auto; max-width:100%; width:100%; }
+.publication-body figcaption { color:var(--am-muted); font-size:.85rem; margin-top:.55rem; text-align:center; }
+.medium-compose { background:#fff; margin:-30px 0 -56px; min-height:calc(100vh - 120px); }
+.medium-compose .medium-editor { max-width:none; }
+.medium-compose__bar { align-items:center; border-bottom:1px solid #edf0ed; display:flex; gap:14px; min-height:64px; padding:10px max(24px,calc((100vw - 1040px)/2)); }
+.medium-compose__brand { color:#0b8043; font-size:1.35rem; font-weight:800; text-decoration:none; }
+.medium-compose__status { color:#8a938d; flex:1; font-size:.82rem; }
+.medium-compose__canvas { margin:0 auto; max-width:840px; padding:70px 28px 180px; }
+.medium-compose .community-field--title label,.visually-hidden { clip:rect(0 0 0 0); height:1px; margin:-1px; overflow:hidden; position:absolute; width:1px; }
+.agromega-forum .medium-compose .medium-title-input { border:0; color:#1f2937; font-size:clamp(2.5rem,6vw,4rem); font-weight:500; min-height:96px; padding:0 0 24px 52px; }
+.medium-compose__story { padding-left:52px; position:relative; }
+.medium-compose__plus { align-items:center; background:#fff; border:1px solid #647067; border-radius:50%; color:#506057; cursor:pointer; display:flex; font-size:25px; height:36px; justify-content:center; left:0; line-height:1; position:absolute; top:22px; transition:transform .2s ease; width:36px; }
+.medium-compose__plus.is-open { transform:rotate(45deg); }
+.medium-compose .medium-editor__toolbar { left:0; margin:0; position:absolute; top:68px; z-index:20; }
+.medium-compose .medium-editor__surface { font-size:1.25rem; line-height:1.75; min-height:540px; padding:20px 0; }
+.medium-publish-panel { background:rgba(20,31,24,.36); inset:0; overflow:auto; padding:50px 20px; position:fixed; z-index:300; }
+.medium-publish-panel__card { background:#fff; border-radius:22px; box-shadow:0 24px 70px rgba(15,23,42,.24); margin:0 auto; max-width:680px; padding:clamp(24px,5vw,46px); position:relative; }
+.medium-publish-panel__card h2 { color:#1f2937; font-size:2rem; margin:.3rem 0 2rem; }
+.medium-publish-panel__close { background:transparent; border:0; color:#6b7280; cursor:pointer; font-size:28px; position:absolute; right:20px; top:14px; }
+.has-publish-panel { overflow:hidden; }
+.community-field--tags ul { display:flex; flex-wrap:wrap; gap:8px; list-style:none; margin:10px 0 0; padding:0; }
+.community-field--tags li label { background:#f3fbf3; border:1px solid #d4e8d6; border-radius:999px; cursor:pointer; display:inline-flex; font-size:.9rem; gap:7px; padding:8px 12px; }
+.community-discovery { margin:0 0 18px; }
+.community-discovery>div { display:grid; gap:10px; grid-template-columns:minmax(0,1fr) auto; }
+.community-tags { display:flex; gap:8px; margin-bottom:28px; overflow-x:auto; padding-bottom:5px; }
+.community-tags a,.publication-card__tags a { background:#f3fbf3; border:1px solid #d4e8d6; border-radius:999px; color:#215c34; display:inline-flex; flex:0 0 auto; font-size:.84rem; font-weight:700; gap:5px; padding:7px 11px; text-decoration:none; }
+.community-tags a.is-active,.community-tags a:hover { background:#0b8043; border-color:#0b8043; color:#fff; }
+.publication-card__tags { display:flex; flex-wrap:wrap; gap:6px; margin:14px 0; }
+@media(max-width:640px){.medium-compose__bar{padding:10px 16px}.medium-compose__status{display:none}.medium-compose__canvas{padding:44px 18px 120px}.agromega-forum .medium-compose .medium-title-input{padding-left:0}.medium-compose__story{padding-left:44px}.medium-compose .medium-editor__toolbar{max-width:calc(100vw - 36px);overflow-x:auto}.medium-publish-panel{padding:16px 10px}}
+.community-feed-shell { display:grid; gap:54px; grid-template-columns:minmax(0,680px) 300px; margin:0 auto; max-width:1080px; padding:0 20px 60px; }
+.community-feed { min-width:0; }
+.community-feed__tabs { border-bottom:1px solid #e5e7eb; display:flex; gap:28px; margin-bottom:18px; }
+.community-feed__tabs a { border-bottom:1px solid transparent; color:#6b7280; padding:12px 0; text-decoration:none; }
+.community-feed__tabs a.is-active { border-color:#1f2937; color:#1f2937; }
+.feed-story { border-bottom:1px solid #e5e7eb; padding:25px 0; }
+.feed-story__author { color:#5f6862; font-size:.86rem; margin:0 0 10px; }
+.feed-story h2 { font-size:1.45rem; line-height:1.2; margin:0 0 8px; }
+.feed-story h2 a { color:#1f2937; text-decoration:none; }
+.feed-story__content>p:not(.feed-story__author) { color:#6b7280; margin:.4rem 0; }
+.community-feed__section-title { font-size:1.15rem; margin:34px 0 0; }
+.community-sidebar { border-left:1px solid #e5e7eb; display:grid; gap:32px; padding-left:40px; }
+.community-sidebar h2 { color:#1f2937; font-size:1rem; margin:0 0 14px; }
+.community-sidebar__card { background:#e8f5e9; border-radius:16px; padding:22px; }
+.community-sidebar__card p { color:#4b5563; font-size:.92rem; }
+.community-sidebar__tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+.community-sidebar__tags a { border:1px solid #d8ded9; border-radius:999px; color:#374151; font-size:.84rem; padding:7px 10px; text-decoration:none; }
+@media(max-width:900px){.community-feed-shell{grid-template-columns:1fr}.community-sidebar{border-left:0;border-top:1px solid #e5e7eb; grid-template-columns:1fr 1fr;padding:30px 0 0}}
+@media(max-width:640px){.community-feed-shell{padding-inline:16px}.community-sidebar{grid-template-columns:1fr}.feed-story h2{font-size:1.25rem}}
+@media (max-width:640px) { .community-heading { display:block; } .community-heading .button { display:inline-block; margin-top:12px; } }
 
 .forum-header__nav {
   display: flex;
@@ -203,11 +348,15 @@ body {
 }
 
 .agromega-forum .header__tabs_content {
-  flex-basis: 100%;
+  position: absolute;
+  right: max(24px, calc((100vw - 1120px) / 2));
+  top: 58px;
+  width: min(300px, calc(100vw - 32px));
+  z-index: 100;
 }
 
 .agromega-forum .header__tabs_content__tab {
-  justify-content: flex-end;
+  display: block;
 }
 
 .agromega-forum .header__tab__nav,
@@ -251,11 +400,33 @@ body {
 .agromega-forum .layout__article {
   background: #ffffff;
   border: 1px solid var(--am-border);
-  border-radius: 6px;
+  border-radius: 14px;
   box-shadow: 0 3px 14px rgba(31, 42, 36, 0.04);
-  margin-top: 0;
+  margin: 0 auto;
+  max-width: 1120px;
   min-height: 0;
-  padding: 18px 18px 22px;
+  padding: clamp(20px,3vw,36px);
+}
+
+@media (max-width: 900px) {
+  .agromega-forum .forum-header__nav { display:none !important; }
+  .forum-header__search { order:3; flex-basis:100%; }
+  .community-hero { align-items:flex-start; flex-direction:column; }
+}
+
+@media (max-width: 640px) {
+  .forum-header { padding:12px 16px; }
+  .forum-header__section { display:none; }
+  .forum-header__brand { flex:1 1 auto; }
+  .forum-header__actions,.forum-header__login { margin-left:auto; }
+  .community-tabs { padding:0 16px; }
+  .community-tabs__inner { gap:20px; }
+  .community-page { border-left:0; border-radius:0; border-right:0; padding:24px 16px; }
+  .community-hero { border-radius:12px; margin:-8px -4px 28px; padding:28px 20px; }
+  .community-primary-action { width:100%; }
+  .publication-grid { grid-template-columns:1fr; }
+  .community-form__actions { align-items:stretch; flex-direction:column-reverse; }
+  .community-form__actions .button { width:100%; }
 }
 
 .agromega-forum .layout__menu {
@@ -1167,4 +1338,241 @@ body {
     margin-left: 0;
     width: 100%;
   }
+}
+
+@media (max-width: 760px) {
+  .agromega-forum .header__tabs_content { left:auto; position:absolute; right:12px; top:58px; width:min(300px,calc(100vw - 44px)); }
+}
+
+/* Mobile-first community design system. Forum-owned by design. */
+:root {
+  --am-primary: #2f7d45;
+  --am-primary-strong: #205f34;
+  --am-primary-soft: #e9f5ec;
+  --am-ink: #17231c;
+  --am-ink-muted: #5d6b62;
+  --am-canvas: #edf3ef;
+  --am-card: #ffffff;
+  --am-line: #dce7df;
+  --am-danger: #a52b25;
+  --am-focus: #156bd1;
+  --am-radius-sm: 10px;
+  --am-radius-md: 16px;
+  --am-radius-lg: 24px;
+  --am-shadow-sm: 0 2px 12px rgba(23, 48, 31, .06);
+  --am-shadow-md: 0 18px 50px rgba(23, 48, 31, .1);
+  --am-content: 1120px;
+  --am-reading: 760px;
+  --am-control: 44px;
+  --am-green: #286238;
+}
+
+.forum-skip-link { background:#fff; border:2px solid var(--am-focus); border-radius:8px; color:var(--am-ink); left:16px; padding:10px 14px; position:fixed; top:-100px; z-index:1000; }
+.forum-skip-link:focus { top:12px; }
+.forum-main { min-height:55vh; outline:none; }
+.agromega-forum :focus-visible { outline:3px solid var(--am-focus); outline-offset:3px; }
+.agromega-forum a, .agromega-forum button, .agromega-forum input, .agromega-forum select, .agromega-forum textarea { -webkit-tap-highlight-color:transparent; }
+.agromega-forum .button, .agromega-forum button, .agromega-forum input[type="submit"] { align-items:center; border-radius:10px; display:inline-flex; font-weight:700; justify-content:center; min-height:var(--am-control); padding:10px 16px; }
+.agromega-forum .button { background:var(--am-primary); color:#fff; text-decoration:none; }
+.agromega-forum .button:hover { background:var(--am-primary-strong); color:#fff; }
+.agromega-forum .button.is-undo { background:#fff; border:1px solid var(--am-line); color:var(--am-primary-strong); }
+.agromega-forum input, .agromega-forum select, .agromega-forum textarea { border:1px solid #b9cbbf; border-radius:10px; min-height:var(--am-control); padding:10px 12px; }
+.agromega-forum label { color:var(--am-ink); font-weight:700; }
+.community-shell { margin-inline:auto; max-width:var(--am-content); padding-inline:24px; width:100%; }
+.community-page { background:var(--am-card); border:1px solid #d3e0d7; border-radius:var(--am-radius-lg); box-shadow:0 12px 34px rgba(23,48,31,.09); padding:clamp(28px,4vw,52px); }
+.community-page-header { border-bottom:1px solid var(--am-line); margin-bottom:30px; padding-bottom:24px; }
+.community-page-header--split { align-items:flex-start; display:flex; gap:24px; justify-content:space-between; }
+.community-page-header h1, .publication-header h1 { color:var(--am-ink); font-size:clamp(2rem,5vw,3.5rem); letter-spacing:-.035em; line-height:1.05; margin:.25rem 0 1rem; overflow-wrap:anywhere; }
+.community-page-header p { color:var(--am-ink-muted); max-width:680px; }
+.community-kicker { color:var(--am-primary); font-size:.78rem; font-weight:800; letter-spacing:.09em; margin:0 0 8px; text-transform:uppercase; }
+.community-meta { color:var(--am-ink-muted); font-size:.875rem; }
+.community-home { padding-bottom:72px; }
+.community-home__layout { background:#fff; border:1px solid #d3e0d7; border-radius:var(--am-radius-lg); box-shadow:0 12px 34px rgba(23,48,31,.09); display:grid; gap:48px; grid-template-columns:minmax(0,1fr) 300px; padding:clamp(26px,4vw,48px); }
+.community-section-heading { align-items:end; border-bottom:1px solid var(--am-line); display:flex; justify-content:space-between; margin-bottom:8px; padding-bottom:14px; }
+.community-section-heading h2 { color:var(--am-ink); font-size:1.5rem; margin:0; }
+.community-section-heading > a { align-items:center; display:inline-flex; min-height:44px; }
+.agromega-forum .community-section-heading > a { color:var(--am-primary-strong); }
+.community-feed > section + section { margin-top:48px; }
+.community-story-list, .discussion-list { display:grid; }
+.feed-story { border-bottom:1px solid var(--am-line); padding:24px 4px; position:relative; }
+.feed-story__eyebrow, .discussion-row__category { color:var(--am-primary); font-size:.78rem; font-weight:800; margin:0 0 7px; text-transform:uppercase; }
+.feed-story h3, .discussion-row h2, .discussion-row h3 { font-size:1.3rem; line-height:1.25; margin:0 0 8px; }
+.feed-story__link, .discussion-row__link, .publication-card__link { color:var(--am-ink); text-decoration:none; }
+.feed-story__link::after, .discussion-row__link::after, .publication-card__link::after { content:""; inset:0; position:absolute; }
+.feed-story a:not(.feed-story__link), .discussion-row a:not(.discussion-row__link), .publication-card a:not(.publication-card__link) { position:relative; z-index:1; }
+.community-sidebar { align-content:start; border-left:1px solid var(--am-line); display:grid; gap:28px; padding-left:32px; }
+.community-sidebar__card { background:var(--am-primary-soft); border-radius:var(--am-radius-md); padding:24px; }
+.community-sidebar h2 { color:var(--am-ink); font-size:1.05rem; }
+.community-sidebar__tags { display:flex; flex-wrap:wrap; gap:10px; max-height:164px; overflow-y:auto; padding:3px; }
+.community-sidebar__tags a, .publication-card__tags a, .community-tags a { align-items:center; background:#f4faf5; border:1px solid #cde2d2; border-radius:999px; color:var(--am-primary-strong); display:inline-flex; font-size:.78rem; font-weight:700; margin:0 4px 5px 0; min-height:32px; padding:5px 9px; text-decoration:none; }
+.community-sidebar__tags a:hover, .community-sidebar__tags a:focus-visible, .publication-card__tags a:hover, .publication-card__tags a:focus-visible, .community-tags a:hover, .community-tags a:focus-visible { background:#e8f5e9; border-color:#9fc9a7; color:#174c29; }
+.community-empty { background:#f8fbf8; border:1px dashed #a9c8b1; border-radius:var(--am-radius-md); padding:48px 24px; text-align:center; }
+.community-empty h2, .community-empty h3 { color:var(--am-ink); }
+.community-discovery { margin-bottom:18px; }
+.community-discovery > div { display:grid; gap:10px; grid-template-columns:minmax(0,1fr) auto; }
+.community-discovery label { display:block; margin-bottom:7px; }
+.community-results-summary { color:var(--am-ink-muted); margin-bottom:12px; }
+.community-tags { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:28px; max-height:92px; overflow-y:auto; padding:4px; scrollbar-width:thin; }
+.community-tags a.is-active { background:var(--am-primary); border-color:var(--am-primary); color:#fff; }
+.publication-grid { display:grid; gap:22px; grid-template-columns:repeat(2,minmax(0,1fr)); }
+.publication-card { border:1px solid var(--am-line); border-radius:var(--am-radius-md); box-shadow:var(--am-shadow-sm); min-width:0; position:relative; }
+.publication-card__body { padding:24px; }
+.publication-card__meta { color:var(--am-primary); font-size:.78rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; }
+.publication-card h3 { font-size:1.35rem; line-height:1.25; margin:8px 0 12px; overflow-wrap:anywhere; }
+.publication-card footer { border-top:1px solid var(--am-line); color:var(--am-ink-muted); display:flex; flex-wrap:wrap; font-size:.85rem; gap:8px; justify-content:space-between; margin-top:20px; padding-top:14px; }
+.publication-header { border-bottom:1px solid var(--am-line); margin:0 auto 36px; max-width:860px; padding-bottom:28px; }
+.publication-lead { color:var(--am-ink-muted); font-size:clamp(1.1rem,2vw,1.3rem); }
+.publication-byline { align-items:center; display:flex; gap:12px; margin:24px 0; }
+.publication-byline p { color:var(--am-ink-muted); font-size:.85rem; margin:2px 0 0; }
+.community-avatar { align-items:center; background:var(--am-primary-soft); border-radius:50%; color:var(--am-primary-strong); display:flex; font-weight:800; height:46px; justify-content:center; width:46px; }
+.publication-body { font-size:1.08rem; line-height:1.8; margin:0 auto; max-width:var(--am-reading); overflow-wrap:anywhere; }
+.publication-body img { height:auto; max-width:100%; }
+.publication-body table { border-collapse:collapse; display:block; max-width:100%; overflow-x:auto; }
+.publication-body th, .publication-body td { border:1px solid var(--am-line); padding:8px; }
+.community-notice { background:#fff8e8; border-left:4px solid #b98218; margin:0 auto 30px; max-width:var(--am-reading); padding:16px 20px; }
+.publication-footer { align-items:center; border-top:1px solid var(--am-line); display:flex; gap:24px; justify-content:space-between; margin:44px auto 0; max-width:var(--am-reading); padding-top:24px; }
+.publication-comments { margin:56px auto 0; max-width:860px; }
+.publication-comments .comments_list__comment { display:grid; grid-template-columns:44px minmax(0,1fr); }
+.publication-comments .comment__text, .publication-comments .comment__footer { grid-column:2; }
+.publication-reply { background:#f8fbf8; border:1px solid var(--am-line); border-radius:var(--am-radius-md); margin-top:28px; padding:clamp(18px,4vw,28px); scroll-margin-top:70px; }
+.publication-reply textarea { width:100%; }
+.discussion-row { align-items:center; border-bottom:1px solid var(--am-line); display:flex; gap:24px; justify-content:space-between; min-height:112px; padding:20px 4px; position:relative; }
+.discussion-row__main { min-width:0; }
+.discussion-row__category a { color:inherit; position:relative; z-index:1; }
+.discussion-row__reply-count { align-items:center; color:var(--am-ink-muted); display:flex; flex:0 0 72px; flex-direction:column; }
+.discussion-row__reply-count strong { color:var(--am-ink); font-size:1.25rem; }
+.discussion-row__reply-count small { font-size:.72rem; }
+.discussion-row__badges { display:flex; flex-wrap:wrap; gap:6px; }
+.community-status { background:#eef4ef; border-radius:999px; color:var(--am-primary-strong); display:inline-flex; font-size:.75rem; font-weight:700; gap:4px; padding:5px 9px; }
+.forum-topic-toolbar { align-items:center; border-bottom:1px solid var(--am-line); display:flex; gap:16px; justify-content:space-between; margin-bottom:8px; padding-bottom:18px; }
+.forum-topic-toolbar a { min-height:44px; }
+.forum-topic-toolbar .menu__dropdown { position:relative; }
+.forum-topic-toolbar .menu_list_wrapper { background:#fff; border:1px solid #dbe7dd; border-radius:14px; box-shadow:0 16px 38px rgba(15,23,42,.14); left:0; margin:8px 0 0; min-width:240px; overflow:hidden; position:absolute; top:100%; width:max-content; z-index:230; }
+.forum-topic-toolbar .menu_list_wrapper .menu_list { margin:0; padding:7px; }
+.forum-topic-toolbar .menu_list_wrapper .menu_list li { border:0; }
+.forum-topic-toolbar .menu_list_wrapper .menu_list__link { border-radius:9px; min-height:40px; padding:9px 11px; }
+.author-publications { display:grid; gap:14px; }
+.author-publication-card { align-items:center; border:1px solid var(--am-line); border-radius:var(--am-radius-md); display:flex; gap:24px; justify-content:space-between; padding:22px; }
+.author-publication-card h2 { margin:8px 0; }
+.community-alert { border-radius:10px; margin:16px auto; max-width:840px; padding:14px 18px; }
+.community-alert--error { background:#fff0ef; border:1px solid #e6b4b0; color:var(--am-danger); }
+.system-page { max-width:720px; text-align:center; }
+.system-page__actions { display:flex; gap:10px; justify-content:center; }
+.community-create-menu { position:relative; }
+.community-create-menu > summary { align-items:center; border:1px solid var(--am-primary); border-radius:10px; box-sizing:border-box; cursor:pointer; display:inline-flex; font-size:.9rem; font-weight:750; gap:6px; justify-content:center; list-style:none; min-height:40px; padding:7px 12px; }
+.community-create-menu > summary::-webkit-details-marker { display:none; }
+.community-create-menu__panel { background:#fff; border:1px solid #dbe7dd; border-radius:18px; box-shadow:0 18px 44px rgba(15,23,42,.14); display:grid; min-width:280px; padding:8px; position:absolute; right:0; top:calc(100% + 8px); z-index:220; }
+.community-create-menu__panel a { border-radius:10px; color:var(--am-ink); display:grid; min-height:60px; padding:10px 12px; text-decoration:none; }
+.community-create-menu__panel a:hover { background:var(--am-primary-soft); }
+.community-create-menu__panel small { color:var(--am-ink-muted); }
+.agromega-forum .header__tabs_content { background:transparent; border:0; box-shadow:none; padding:0; right:max(24px,calc((100vw - 1120px)/2)); top:62px; width:min(320px,calc(100vw - 32px)); }
+.agromega-forum .header__tabs_content__tab { background:#fff; border:1px solid #dbe7dd; border-radius:18px; box-shadow:0 18px 44px rgba(15,23,42,.14); overflow:hidden; padding:8px; }
+.agromega-forum .header__tabs_content .menu_list { margin:0; padding:0; }
+.agromega-forum .header__tabs_content .menu_list__link { border:0; border-radius:12px; color:#215c34; font-weight:650; min-height:42px; padding:10px 12px; }
+.agromega-forum .header__tabs_content .menu_list__link:hover, .agromega-forum .header__tabs_content .menu_list__link:focus { background:#f3fbf3; color:#0b8043; }
+.medium-compose__actions { align-items:center; display:flex; gap:12px; justify-content:flex-end; margin-bottom:28px; }
+.medium-compose__actions > a { color:var(--am-primary-strong); font-weight:700; margin-right:auto; min-height:44px; padding:10px 0; text-decoration:none; }
+.medium-compose__actions .medium-compose__status { color:var(--am-ink-muted); font-size:.82rem; }
+.medium-compose__canvas { padding-top:34px; }
+.community-search-section + .community-search-section { border-top:1px solid var(--am-line); margin-top:36px; padding-top:30px; }
+.community-search-section > h2 { color:var(--am-ink); font-size:1.35rem; margin:0 0 18px; }
+.community-mobile-nav { display:none; }
+.community-tabs { position:sticky; top:0; z-index:25; }
+.community-tabs a { min-height:48px; }
+.community-tabs a.is-active { border-bottom-color:var(--am-primary); color:var(--am-ink); }
+.agromega-forum .community-tabs a { color:var(--am-primary-strong); }
+.agromega-forum .forum-header__section { color:#425c4a; }
+.forum-header__main-site { align-items:center; border-left:1px solid var(--am-line); color:var(--am-primary-strong); display:inline-flex; font-size:.82rem; font-weight:700; gap:6px; min-height:36px; padding-left:12px; text-decoration:none; }
+.forum-header__main-site:hover, .forum-header__main-site:focus { color:#0b8043; text-decoration:none; }
+.agromega-forum .forum-header__login { background:var(--am-primary-strong); color:#fff; }
+.agromega-forum .forum-header__login:hover, .agromega-forum .forum-header__login:focus { background:#174c29; color:#fff; }
+.forum-header .header__tabs__item, .forum-header__login, .forum-header__search-button { min-height:44px; min-width:44px; }
+.agromega-forum .forum-header__mobile-search { display:none; }
+.forum-header__mobile-search > summary { align-items:center; border-radius:10px; color:var(--am-primary); cursor:pointer; display:flex; height:44px; justify-content:center; list-style:none; width:44px; }
+.forum-header__mobile-search > summary::-webkit-details-marker { display:none; }
+.forum-header__mobile-search form { background:#fff; border:1px solid var(--am-line); border-radius:var(--am-radius-md); box-shadow:var(--am-shadow-md); display:grid; gap:8px; grid-template-columns:1fr auto; left:12px; padding:12px; position:absolute; right:12px; top:60px; z-index:210; }
+.forum-header__mobile-search:not([open]) form { display:none; }
+.forum-header__mobile-search button { background:var(--am-primary); border:0; color:#fff; }
+.agromega-forum .forum-header .header__tabs__item { align-items:center; display:flex; height:44px !important; justify-content:center; min-height:44px !important; min-width:44px; }
+.agromega-forum .forum-header__user, .agromega-forum .forum-header__user:link, .agromega-forum .forum-header__user:visited, .agromega-forum .forum-header__user:hover, .agromega-forum .forum-header__user:focus, .agromega-forum .forum-header__user:active { background:transparent !important; color:var(--am-primary-strong) !important; }
+.agromega-forum input[type="submit"].button { height:auto !important; min-height:44px !important; }
+.agromega-forum .layout__article { max-width:var(--am-content); }
+.agromega-forum .layout__article > .headline { color:var(--am-ink); font-size:clamp(2rem,5vw,3rem); overflow-wrap:anywhere; }
+.comments_list__comment { border:1px solid var(--am-line); border-radius:var(--am-radius-md); margin-bottom:14px; padding:20px; }
+.comment__actions a, .breadcrumb_nav a, .comments__footer_menu .button { align-items:center; display:inline-flex; min-height:44px; padding-block:8px; }
+.comments__reply { background:#f8fbf8; border:1px solid var(--am-line); border-radius:var(--am-radius-md); padding:20px; }
+.forum-follow-form input[type="submit"] { min-height:44px; }
+.layout__profile { background:#fff; border:1px solid var(--am-line); border-radius:var(--am-radius-lg); margin:0 auto; max-width:var(--am-content); padding:clamp(20px,4vw,44px); }
+.forum-profile-header { align-items:center; display:grid; gap:24px; grid-template-columns:auto 1fr auto; }
+.forum-profile-header .profile__img__username { color:var(--am-ink); font-size:1.7rem; margin:10px 0 0; }
+.forum-profile-actions { display:flex; flex-direction:column; gap:8px; }
+.nav__tabs { border-bottom:1px solid var(--am-line); display:flex; gap:22px; margin:28px 0 20px; overflow-x:auto; padding:0; }
+.nav__tabs__link { align-items:center; display:flex; min-height:48px; text-decoration:none; }
+.nav__tabs__link.is-selected { border-bottom:3px solid var(--am-primary); font-weight:800; }
+
+@media (max-width: 1023px) {
+  .community-home__layout { grid-template-columns:1fr; }
+  .community-sidebar { border-left:0; border-top:1px solid var(--am-line); grid-template-columns:1fr 1fr; padding:28px 0 0; }
+  .agromega-forum .forum-header__create { display:none; }
+  .forum-header { flex-wrap:nowrap; min-height:64px; }
+  .forum-header__nav, .forum-header__search { display:none !important; }
+  .agromega-forum .forum-header__mobile-search { display:block; }
+}
+
+@media (max-width: 640px) {
+  body { padding-bottom:76px; }
+  .forum-header { align-items:center; flex-direction:row; gap:6px; min-height:64px; padding:10px 16px; }
+  .agromega-forum .forum-header__brand { flex:1 1 100px; min-width:100px; width:auto; }
+  .forum-header__logo { font-size:20px; }
+  .forum-header__main-site { border-left:0; font-size:.75rem; min-height:32px; padding-left:0; }
+  .agromega-forum .forum-header__actions { flex:0 0 auto; gap:0; margin:0; padding:0 !important; width:auto; }
+  .forum-header__user { font-size:0; max-width:44px; width:44px; }
+  .forum-header__user .fa { font-size:14px; }
+  .community-tabs { margin-bottom:18px; padding-inline:16px; }
+  .community-tabs__inner { gap:24px; }
+  .community-shell { padding-inline:16px; }
+  .community-page { border-radius:16px; padding:26px 20px; }
+  .community-page-header--split { display:block; }
+  .community-page-header--split > .button { margin-top:14px; width:100%; }
+  .community-sidebar { grid-template-columns:1fr; }
+  .community-section-heading { align-items:flex-start; }
+  .community-section-heading h2 { font-size:1.25rem; }
+  .publication-grid { grid-template-columns:1fr; }
+  .community-discovery > div { grid-template-columns:1fr; }
+  .community-discovery .button { width:100%; }
+  .publication-footer, .author-publication-card { align-items:stretch; flex-direction:column; }
+  .publication-footer .button, .author-publication-card .button { width:100%; }
+  .discussion-row__reply-count { display:none; }
+  .forum-topic-toolbar { align-items:stretch; flex-direction:column; }
+  .forum-topic-toolbar__actions, .forum-topic-toolbar__actions .button { width:100%; }
+  .community-mobile-nav { align-items:stretch; background:#f8fcf9; border-top:1px solid #d7e8da; bottom:0; box-shadow:0 -8px 22px rgba(15,23,42,.08); display:grid; grid-template-columns:repeat(4,1fr); min-height:72px; left:0; padding:5px max(6px,env(safe-area-inset-left)) calc(5px + env(safe-area-inset-bottom)); position:fixed; right:0; z-index:200; }
+  .community-mobile-nav > a, .community-mobile-nav > details > summary { align-items:center; background:transparent; border:0; border-radius:12px; color:#0b8043; display:flex; flex-direction:column; font-size:.72rem; font-weight:700; gap:4px; min-height:58px; justify-content:center; min-width:0; padding:5px 3px; text-decoration:none; }
+  .community-mobile-nav > a[aria-current="page"] { background:#e8f5e9; color:#0b8043; font-weight:800; }
+  .community-mobile-nav > a:hover, .community-mobile-nav > a:focus-visible, .community-mobile-nav > details > summary:hover, .community-mobile-nav > details > summary:focus-visible { background:#eef8ef; color:#0b8043; }
+  .community-mobile-nav i { font-size:1.2rem; }
+  .community-create-menu--mobile { position:static; }
+  .community-create-menu--mobile .community-create-menu__panel { bottom:76px; left:10px; position:fixed; right:10px; top:auto; }
+  .medium-compose__canvas { padding-top:24px; }
+  .medium-compose__actions { align-items:stretch; flex-wrap:wrap; margin-bottom:22px; }
+  .medium-compose__actions .medium-compose__status { display:none; }
+  .comments_list__comment { padding:14px; }
+  .comment__actions { gap:4px; }
+  .comment__actions a { min-height:44px; }
+  .forum-profile-header { grid-template-columns:1fr; text-align:center; }
+  .forum-profile-actions .button { width:100%; }
+}
+
+@media (max-width: 1500px) and (min-width: 1024px) {
+  .agromega-forum .forum-header__nav { display:none; }
+}
+
+@media (min-width: 1024px) {
+  .forum-header { flex-wrap:nowrap; justify-content:flex-start; }
+  .forum-header__search { margin-left:auto; }
+  .forum-header__create, .forum-header__create > summary { height:44px !important; min-height:44px !important; }
+  .forum-header__create > summary { box-sizing:border-box !important; margin:0; padding:7px 12px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior:auto !important; transition-duration:.01ms !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; }
 }
