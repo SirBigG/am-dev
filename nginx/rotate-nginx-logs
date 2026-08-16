@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+LOG_DIR=/var/log/nginx
+STATE_FILE="$LOG_DIR/.logrotate.status"
+SUCCESS_FILE="$LOG_DIR/.logrotate-last-success"
+
+if [ ! -f "$STATE_FILE" ]; then
+    # logrotate otherwise records a first-seen timestamp without rotating. At
+    # the first scheduled run that would merge two calendar days.
+    set -- --force
+else
+    set --
+fi
+
+/usr/sbin/logrotate "$@" --state "$STATE_FILE" /etc/agromega-nginx-logrotate.conf
+touch "$SUCCESS_FILE"

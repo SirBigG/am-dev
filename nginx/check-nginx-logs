@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+
+LOG_DIR=/var/log/nginx
+SUCCESS_FILE="$LOG_DIR/.logrotate-last-success"
+MAX_SUCCESS_AGE_SECONDS=${NGINX_LOG_MAX_SUCCESS_AGE_SECONDS:-90000}
+MAX_DISK_PERCENT=${NGINX_LOG_MAX_DISK_PERCENT:-90}
+
+/usr/sbin/nginx -t >/dev/null 2>&1
+
+disk_percent=$(df -P "$LOG_DIR" | awk 'NR == 2 { gsub("%", "", $5); print $5 }')
+[ -n "$disk_percent" ]
+[ "$disk_percent" -lt "$MAX_DISK_PERCENT" ]
+
+[ -f "$SUCCESS_FILE" ]
+now=$(date +%s)
+last_success=$(stat -c %Y "$SUCCESS_FILE")
+[ $((now - last_success)) -le "$MAX_SUCCESS_AGE_SECONDS" ]

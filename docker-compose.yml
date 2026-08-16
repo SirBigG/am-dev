@@ -19,8 +19,12 @@ services:
       - am-static:/static
       - am-media:/var/www/media
       - am-forum-media:/forum-media
+      - am-nginx-logs:/var/log/nginx
     env_file:
       - am.env
+    environment:
+      NGINX_LOG_MAX_DISK_PERCENT: "${NGINX_LOG_MAX_DISK_PERCENT:-90}"
+      NGINX_LOG_MAX_SUCCESS_AGE_SECONDS: "${NGINX_LOG_MAX_SUCCESS_AGE_SECONDS:-90000}"
     depends_on:
       - core
       - forum_instance
@@ -42,6 +46,7 @@ services:
       - ./am-core:/am-core
       - am-static:/static
       - am-media:/var/www/media
+      - am-nginx-logs:/var/log/nginx:ro
     env_file:
       - am.env
     links:
@@ -90,3 +95,4 @@ volumes:
   am-static:
   am-media:
   am-forum-media:
+  am-nginx-logs:
