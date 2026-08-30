@@ -8,6 +8,7 @@ This `am-dev` directory is an integration workspace containing separately owned 
 
 - `am-core/` — main AgroMega Django backend and API; OAuth/OIDC provider; main navigation and root SEO surfaces.
 - `forum_instance/` — separate Django application built on `django-spirit`; owns forum/community data, templates, static assets, and forum-specific behavior.
+- `parser_studio/` — separate local PySide6 desktop application for trusted company-parser operators; owns its API client, local runner, UI, keyring integration, and isolated uv environment.
 - `nginx/` — local reverse-proxy configuration.
 - `docker-compose.yml` — local multi-service environment.
 - `forum_instance` is not a new service to create. Extend the existing sibling project when forum/community work is requested.
@@ -24,6 +25,7 @@ Read and follow the nearest project-level `AGENTS.md` before changing files insi
 - Preserve `/forum` in externally generated URLs, redirects, login/logout `next` values, OIDC callbacks, form actions, pagination, AJAX, canonical URLs, sitemap URLs, static assets, and media assets.
 - Do not introduce public top-level `/community/` or `/publications/` routes in `am-core` for forum-owned content.
 - Keep cross-service relationships explicit. Do not create Django foreign keys between the main and forum databases.
+- Parser Studio communicates with `am-core` only through the authenticated parser API. It must not access the Django database directly, store API tokens in tracked/plain-text files, or add desktop dependencies to the production core runtime.
 
 ## Community And Publication Direction
 
@@ -46,6 +48,7 @@ Start with the plan's Phase 0 investigation. Record required decisions before im
 
 - Use the root workspace when work crosses `am-core`, `forum_instance`, Nginx, or Compose.
 - Keep dependency changes isolated to the project that owns them.
+- Parser Studio dependencies use uv via `parser_studio/pyproject.toml` and `parser_studio/uv.lock`; do not add the desktop app to Docker Compose unless a future deployment decision explicitly changes its local-only ownership.
 - Main app dependencies use uv via `am-core/pyproject.toml` and `am-core/uv.lock`.
 - Forum dependencies are managed separately in `forum_instance/requirements.in`, `requirements.txt`, and `constraints.txt` until that project deliberately adopts another workflow.
 - Keep main static sources in `am-core/frontend/src/`; keep forum static sources and overrides in `forum_instance`.
