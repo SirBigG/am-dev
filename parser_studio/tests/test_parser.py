@@ -94,3 +94,72 @@ def test_static_runner_follows_configured_next_page():
 
     assert [product["name"] for product in products] == ["Golden", "Gala"]
     assert session.urls == ["https://shop.example/apples", "https://shop.example/apples/page/2"]
+
+
+def test_encoding_override_handles_wrong_meta_and_pagination():
+    from agromega_parser_studio.parser import next_page_url
+
+    for encoding in ("utf-8", "windows-1251"):
+        content = (
+            '<meta charset="iso-8859-1"><article><h2>Яблуня Айдаред</h2></article><a href="/next">Далі</a>'
+        ).encode(encoding)
+        config = {
+            "encoding": encoding,
+            "item": "//article",
+            "name": ".//h2/text()",
+            "next_page": "//a[text()='Далі']/@href",
+        }
+        assert parse_html(content, config) == [{"name": "Яблуня Айдаред"}]
+        assert next_page_url(content, "https://shop.example", config) == "https://shop.example/next"
+        assert parse_html(content.decode(encoding), config) == [{"name": "Яблуня Айдаред"}]
+
+
+def test_invalid_encoding_fails_explicitly():
+    import pytest
+
+    with pytest.raises(LookupError):
+        parse_html(b"<p>name</p>", {"encoding": "invalid-encoding", "name": "//p/text()"})
+
+
+def test_runner_applies_encoding_override_to_response_bytes():
+    from unittest.mock import Mock
+
+    session = Mock()
+    session.get.return_value.content = "<article><h2>Яблуня Айдаред</h2></article>".encode("windows-1251")
+    products = StaticSourceRunner(session=session).preview(
+        {
+            "url": "https://shop.example",
+            "source_type": "static",
+            "parser_map": {"encoding": "windows-1251", "item": "//article", "name": ".//h2/text()"},
+        }
+    )
+    assert products[0]["name"] == "Яблуня Айдаред"
+
+
+def test_duplicate_products_merge_but_conflicting_prices_fail():
+    import pytest
+
+    from agromega_parser_studio.parser import deduplicate_products
+
+    product = {"product_url": "https://shop.example/apple", "name": "Apple", "price": 650}
+    assert deduplicate_products([product, dict(product)]) == [product]
+    with pytest.raises(ValueError, match="Conflicting duplicate"):
+        deduplicate_products([product, {**product, "price": 700}])
+    assert len(deduplicate_products([product, {**product, "product_url": "https://shop.example/apple-2"}])) == 2
+
+
+def test_runner_merges_repeated_cards_and_counts_them():
+    from unittest.mock import Mock
+
+    session = Mock()
+    session.get.return_value.content = b'<article><h2>Apple</h2><a href="/apple">Link</a></article>' * 2
+    runner = StaticSourceRunner(session=session)
+    products = runner.preview(
+        {
+            "url": "https://shop.example",
+            "source_type": "static",
+            "parser_map": {"item": "//article", "name": ".//h2/text()", "link": ".//a/@href"},
+        }
+    )
+    assert len(products) == 1
+    assert runner.duplicates_removed == 1

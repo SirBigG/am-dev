@@ -165,7 +165,7 @@ class MainWindow(QMainWindow):
         def load():
             return {
                 "companies": self.api.list_companies(),
-                "sources": self.api.list_sources(scope="all", limit=100),
+                "sources": self.api.list_all_sources(),
                 "attempts": self.api.list_attempts(),
                 "products": self.api.list_products(),
                 "prices": self.api.list_price_history(),
@@ -220,6 +220,8 @@ class MainWindow(QMainWindow):
         self.preview_text.setPlainText(json.dumps(result.products, ensure_ascii=False, indent=2, default=str))
         self.tabs.setCurrentWidget(self.preview_text)
         self.log(f"Source #{result.source['id']}: {len(result.products)} products; receipt={result.receipt}")
+        if result.duplicates_removed:
+            self.log(f"Merged {result.duplicates_removed} identical product duplicates.")
         if result.receipt:
             self.refresh_all()
 

@@ -5,13 +5,35 @@ from urllib.parse import urljoin
 import requests
 from lxml import html
 
-CONFIG_KEYS = {"item", "max_pages", "next_page", "snapshot_complete"}
+CONFIG_KEYS = {"encoding", "item", "max_pages", "next_page", "snapshot_complete"}
 PRICE_KEYS = {"price", "min_price", "max_price"}
 SOURCE_REQUEST_HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; AgroMegaParser/1.0; +https://agromega.com.ua/)",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "uk-UA,uk;q=0.9,en;q=0.7",
 }
+
+
+def deduplicate_products(products):
+    """Collapse identical identities; conflicting records require operator review."""
+    unique = {}
+    for product in products:
+        identity = product.get("product_url") or product["name"].strip().casefold()
+        if identity in unique:
+            previous = {k: v for k, v in unique[identity].items() if k != "observed_at"}
+            current = {k: v for k, v in product.items() if k != "observed_at"}
+            if previous != current:
+                raise ValueError(f"Conflicting duplicate product: {identity}. Check names, prices and selectors.")
+        else:
+            unique[identity] = product
+    return list(unique.values())
+
+
+def parse_document(content, parser_map):
+    """Override decoding only for raw bytes; browser HTML is already Unicode."""
+    encoding = parser_map.get("encoding")
+    parser = html.HTMLParser(encoding=encoding) if encoding else None
+    return html.fromstring(content, parser=parser if isinstance(content, bytes) else None)
 
 
 def extract_price(value):
@@ -43,7 +65,7 @@ def xpath_value(value):
 
 
 def parse_html(content: bytes | str, parser_map: dict) -> list[dict]:
-    tree = html.fromstring(content)
+    tree = parse_document(content, parser_map)
     item_xpath = parser_map.get("item")
     if item_xpath:
         parsed = []
@@ -78,7 +100,7 @@ def next_page_url(content: bytes | str, current_url: str, parser_map: dict) -> s
     xpath = parser_map.get("next_page")
     if not xpath:
         return None
-    values = html.fromstring(content).xpath(xpath)
+    values = parse_document(content, parser_map).xpath(xpath)
     value = xpath_value(values[0]) if values else None
     return urljoin(current_url, value) if value else None
 
@@ -96,6 +118,7 @@ def max_pages(parser_map: dict) -> int:
 
 class StaticSourceRunner:
     def __init__(self, timeout=30, session=None):
+        self.duplicates_removed = 0
         self.timeout = timeout
         self.session = session or requests.Session()
         if session is None:
@@ -104,6 +127,7 @@ class StaticSourceRunner:
     def preview(self, source: dict) -> list[dict]:
         if source.get("source_type") != "static":
             raise ValueError("Phase 1 supports static HTML sources only.")
+        self.duplicates_removed = 0
         parser_map = source.get("parser_map") or {}
         if not parser_map:
             raise ValueError("Parser source has no parser configuration.")
@@ -141,4 +165,6 @@ class StaticSourceRunner:
             if page_number + 1 == page_limit:
                 raise ValueError(f"Pagination exceeded configured max_pages={page_limit}.")
             current_url = following_url
-        return products
+        unique = deduplicate_products(products)
+        self.duplicates_removed = len(products) - len(unique)
+        return unique

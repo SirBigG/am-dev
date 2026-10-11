@@ -52,8 +52,10 @@ class ParserApiClient:
     def health_check(self):
         return self.list_sources(scope="all", limit=1)
 
-    def list_sources(self, *, scope="all", limit=100, company=None, category=None, active=None):
+    def list_sources(self, *, scope="all", limit=100, company=None, category=None, active=None, after_id=None):
         params = {"scope": scope, "limit": limit}
+        if after_id is not None:
+            params["after_id"] = after_id
         if company is not None:
             params["company"] = company
         if category:
@@ -61,6 +63,21 @@ class ParserApiClient:
         if active is not None:
             params["active"] = str(active).lower()
         return self.request("GET", "api/parser/sources/", params=params)
+
+    def list_all_sources(self):
+        sources = []
+        cursor = 0
+        while True:
+            page = self.list_sources(scope="all", limit=100, after_id=cursor)
+            if not page:
+                return sources
+            ids = [source["id"] for source in page]
+            if ids != sorted(set(ids)) or ids[0] <= cursor:
+                raise ParserApiError(
+                    "Source pagination did not advance. Update the backend before using this Studio version."
+                )
+            sources.extend(page)
+            cursor = ids[-1]
 
     def source_detail(self, source_id: int):
         return self.request("GET", f"api/parser/sources/{source_id}/")

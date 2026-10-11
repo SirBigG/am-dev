@@ -81,3 +81,20 @@ def test_result_submission_retries_uncertain_transport_with_same_payload():
 
     assert result["replayed"] is True
     assert session.calls[0][2]["json"] == session.calls[1][2]["json"]
+
+
+def test_all_sources_loads_beyond_first_hundred():
+    pages = [[{"id": i} for i in range(1, 101)], [{"id": 101}], []]
+    session = FakeSession([FakeResponse(payload=p) for p in pages])
+    client = ParserApiClient("https://agromega.example", "secret", session=session)
+    assert len(client.list_all_sources()) == 101
+    assert [c[2]["params"]["after_id"] for c in session.calls] == [0, 100, 101]
+
+
+def test_all_sources_rejects_server_ignoring_cursor():
+    import pytest
+
+    session = FakeSession([FakeResponse(payload=[{"id": 1}]), FakeResponse(payload=[{"id": 1}])])
+    client = ParserApiClient("https://agromega.example", "secret", session=session)
+    with pytest.raises(ParserApiError, match="Update the backend"):
+        client.list_all_sources()
